@@ -8,17 +8,21 @@ public class Grave {
 	private String firstname;
 	private String lastname;
 	private String sex;
-	private Date dateBirth;
-	private Date dateDeath;
+	private long dateBirth;
+	private long dateDeath;
 	private Cemetery cemetery;
 	private String graveLoc;
 	private double latitude;
 	private double longitude;
 	private String vitaPath;
 	
+	public Grave() {
+		
+	}
+	
 	
 	public Grave(long graveID, String firstname, String lastname, String sex,
-			Date dateBirth, Date dateDeath, Cemetery cemetery, String graveLoc,
+			long dateBirth, long dateDeath, Cemetery cemetery, String graveLoc,
 			double latitude, double longitude, String vitaPath) {
 		this.graveID = graveID;
 		this.firstname = firstname;
@@ -49,111 +53,88 @@ public class Grave {
 	////////////////////////////////////////////////////////
 	///////////// GETTER + SETTER
 
-
 	public long getGraveID() {
 		return graveID;
 	}
-
 
 	public String getFirstname() {
 		return firstname;
 	}
 
-
 	public String getLastname() {
 		return lastname;
 	}
-
 
 	public String getSex() {
 		return sex;
 	}
 
-
-	public Date getDateBirth() {
+	public long getDateBirth() {
 		return dateBirth;
 	}
 
-
-	public Date getDateDeath() {
+	public long getDateDeath() {
 		return dateDeath;
 	}
-
 
 	public Cemetery getCemetery() {
 		return cemetery;
 	}
 
-
 	public String getGraveLoc() {
 		return graveLoc;
 	}
-
 
 	public double getLatitude() {
 		return latitude;
 	}
 
-
 	public double getLongitude() {
 		return longitude;
 	}
-
 
 	public String getVitaPath() {
 		return vitaPath;
 	}
 
-
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
-
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
-
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(long dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 
-
-	public void setDateDeath(Date dateDeath) {
+	public void setDateDeath(long dateDeath) {
 		this.dateDeath = dateDeath;
 	}
-
 
 	public void setCemetery(Cemetery cemetery) {
 		this.cemetery = cemetery;
 	}
 
-
 	public void setGraveLoc(String graveLoc) {
 		this.graveLoc = graveLoc;
 	}
-
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
-
 	public void setVitaPath(String vitaPath) {
 		this.vitaPath = vitaPath;
 	}
-	
-
 
 }
