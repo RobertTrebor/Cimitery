@@ -14,6 +14,7 @@
     <string name="searchButton">Search for name</string>
     
     <string name="gpsLocateButton">Find my location</string>
+    <string name="labelLocation">GPS located you at:</string>
     
     
     <string-array name="cemeteryNames">

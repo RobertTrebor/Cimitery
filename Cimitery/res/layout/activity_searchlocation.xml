@@ -11,4 +11,32 @@
         android:layout_centerVertical="true"
         android:text="@string/gpsLocateButton" />
 
+    <TextView
+        android:id="@+id/labelLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/labelLocation" />
+
+    <TextView
+        android:id="@+id/latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/labelLocation"
+        android:layout_below="@id/labelLocation"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/labelLocation"
+        android:layout_below="@id/labelLocation"
+        android:layout_marginTop="60dp"
+         />
+
 </RelativeLayout>
