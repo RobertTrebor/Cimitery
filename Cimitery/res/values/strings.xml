@@ -12,5 +12,13 @@
     <string name="labelSearchLastname">Lastname:</string>
     <string name="labelSelectCemetery">Select a cemetery from the list below:</string>
     <string name="searchButton">Search for name</string>
+    
+    <string name="gpsLocateButton">Find my location</string>
+    
+    
+    <string-array name="cemeteryNames">
+        <item>Dorotheenstädtischer Friedhof</item>
+        <item>Friedhof Stubenrauchstrasse</item>
+    </string-array>
 
 </resources>

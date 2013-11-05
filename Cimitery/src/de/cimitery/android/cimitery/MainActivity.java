@@ -1,6 +1,7 @@
 package de.cimitery.android.cimitery;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,6 +43,17 @@ public class MainActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 
 		radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+		
+		if(radioButton.getId() == R.id.radioSearch ) {
+			
+			Intent intent = new Intent(this, SearchNameActivity.class);
+			startActivity(intent);
+			
+		} else {
+			
+			Intent intent = new Intent(this, SearchLocationActivity.class);
+			startActivity(intent);
+		}
 		
 		Log.d(TAG, "Ausgewählt: " + radioButton.getText());
 		
