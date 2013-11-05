@@ -7,5 +7,10 @@
     <string name="radio1_search">Search by name or category</string>
     <string name="radio2_location">Search by GPS location</string>
     <string name="welcomeButton">Enter Cimitery</string>
+    <string name="labelSearchName">Enter the name of the person you are looking for.</string>
+    <string name="labelSearchFirstname">Firstname:</string>
+    <string name="labelSearchLastname">Lastname:</string>
+    <string name="labelSelectCemetery">Select a cemetery from the list below:</string>
+    <string name="searchButton">Search for name</string>
 
 </resources>

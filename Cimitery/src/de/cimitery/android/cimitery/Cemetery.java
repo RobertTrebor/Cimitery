@@ -10,6 +10,9 @@ public class Cemetery {
 	private String street;
 	
 	
+	public Cemetery() {
+	}
+	
 	public Cemetery(long cemeteryID, String name, String city, String country,
 			String zipCode, String street) {
 		this.cemeteryID = cemeteryID;
@@ -32,50 +35,52 @@ public class Cemetery {
 	////////////////////////////////////////////////////////
 	///////////// GETTER + SETTER
 
-
 	public long getCemeteryID() {
 		return cemeteryID;
+	}
+
+	public void setCemeteryID(long cemeteryID) {
+		this.cemeteryID = cemeteryID;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getCity() {
-		return city;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
 	}
 
 	public void setCity(String city) {
 		this.city = city;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public String getZipCode() {
+		return zipCode;
 	}
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
+	public String getStreet() {
+		return street;
+	}
+
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	
-	
+
 }

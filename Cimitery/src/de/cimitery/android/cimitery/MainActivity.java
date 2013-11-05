@@ -28,8 +28,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		button = (Button) findViewById(R.id.buttonWelcome);
 		button.setOnClickListener(this);
-		
-		
+
 	}
 
 	@Override
@@ -41,10 +40,8 @@ public class MainActivity extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		
-		int selectedId = radioGroup.getCheckedRadioButtonId();
-		
-		radioButton = (RadioButton) findViewById(selectedId);
+
+		radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
 		
 		Log.d(TAG, "Ausgewählt: " + radioButton.getText());
 		
