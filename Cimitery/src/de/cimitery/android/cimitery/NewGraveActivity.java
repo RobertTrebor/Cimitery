@@ -15,56 +15,76 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class NewGraveActivity extends Activity{
-	
-	/*
-	
-	EditText vorname;
-	EditText nachname;
+
+	EditText firstname;
+	EditText lastname;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_newgrave);
 		
-		vorname = (EditText) findViewById(R.id.editText1);
-		nachname = (EditText) findViewById(R.id.editText2);
+		firstname = (EditText) findViewById(R.id.editInFirstname);
+		lastname = (EditText) findViewById(R.id.editInLastname);
 		
 		
-		Button button = (Button) findViewById(R.id.button1);
+		Button button = (Button) findViewById(R.id.buttonNewGrave);
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				
-				HttpClient httpclient = new DefaultHttpClient();
-			    HttpPost httppost = new HttpPost("http://www.lengsfeld.de/insert.php");
+				Runnable r = new Runnable() {
+					
+					@Override
+					public void run() {
+						Log.d("NEWGRAVEACT", "Am Anfang von run");
+						
+						HttpClient httpclient = new DefaultHttpClient();
+					    HttpPost httppost = new HttpPost("http://www.lengsfeld.de/cimitery/insert.php");
 
-			    try {
-			        // Add your data
-			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			        nameValuePairs.add(new BasicNameValuePair("firstname", vorname.getText().toString()));
-			        nameValuePairs.add(new BasicNameValuePair("lastname", nachname.getText().toString()));
-			        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					    try {
+					        // Add your data
+					        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+					        nameValuePairs.add(new BasicNameValuePair("firstname", firstname.getText().toString()));
+					        nameValuePairs.add(new BasicNameValuePair("lastname", lastname.getText().toString()));
+					        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					        Log.d("NEWGRAVEACT", "httppost.setEntity");
 
-			        // Execute HTTP Post Request
-			        HttpResponse response = httpclient.execute(httppost);
-			        
-			    } catch (ClientProtocolException e) {
-			        // TODO Auto-generated catch block
-			    } catch (IOException e) {
-			        // TODO Auto-generated catch block
-			    }
+					        // Execute HTTP Post Request
+					        
+					        HttpResponse response = httpclient.execute(httppost);
+					        Log.d("NEWGRAVEACT", response.toString());
+					        
+					        
+					        Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
+					    } catch (ClientProtocolException e) {
+					        // TODO Auto-generated catch block
+					    	e.printStackTrace();
+					    	
+					    } catch (IOException e) {
+					        // TODO Auto-generated catch block
+					    	e.printStackTrace();
+					    	
+					    }
+						
+					}
+				};
+				
+				(new Thread(r)).start();
 				
 			}
 		});
 	}
 	
-	*/
+	
 
 }

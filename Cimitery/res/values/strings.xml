@@ -16,6 +16,14 @@
     <string name="gpsLocateButton">Find my location</string>
     <string name="labelLocation">GPS located you at:</string>
     
+    <string name="labelInputFirstname">Firstname:</string>
+    <string name="labelInputLastname">Lastname:</string>
+    <string name="labelInputSex">Sex:</string>
+    <string name="buttonNewGrave">Save new grave</string>
+    <string name="buttonSelectPhoto">Select a photo</string>
+    <string name="radio_female">Female</string>
+    <string name="radio_male">Male</string>
+    
     
     <string-array name="cemeteryNames">
         <item>Dorotheenstädtischer Friedhof</item>
