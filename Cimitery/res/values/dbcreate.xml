@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="database">cimitery</string>
+    <string name="version">1</string>
+    
+    <string-array name="create">
+        <item >
+            	CREATE TABLE IF NOT EXISTS grave (g_id INT PRIMARY KEY AUTOINCREMENT,
+            										firstname VARCHAR(30) NOT NULL,
+            										lastname VARCHAR(50) NOT NULL,
+            										sex VARCHAR(1) NOT NULL,
+            										datebirth DATE,
+            										datebirth DATE,
+            										c_id INT, FOREIGN KEY(c_id) REFERENCES cemetery(c_id) ,
+            										grave_loc VARCHAR(10),
+            										latitude REAL NOT NULL,
+            										longitude REAL NOT NULL);
+        </item>
+        
+        <item >
+            CREATE TABLE IF NOT EXISTS cemetery (c_id INT PRIMARY KEY AUTOINCREMENT,
+            										name VARCHAR(50) NOT NULL,
+            										city VARCHAR(50),
+            										country VARCHAR(50) NOT NULL,
+            										zipcode VARCHAR(10),
+            										street VARCHAR(50));
+         </item>
+        
+        <item >
+            CREATE TABLE IF NOT EXISTS category (cat_id INT PRIMARY KEY AUTOINCREMENT,
+            										category_name VARCHAR(50) NOT NULL);
+        </item>
+        
+        <item >
+            CREATE TABLE IF NOT EXISTS gravecategory (gc_id INT PRIMARY KEY AUTOINCREMENT,
+            											g_id INT, FOREIGN KEY(g_id) REFERENCES grave(g_id),
+            											cat_id, FOREIGN KEY(cat_id) REFERENCES category(cat_id));
+        </item>
+        
+        <item >
+            CREATE TABLE IF NOT EXISTS photo (p_id INT PRIMARY KEY AUTOINCREMENT,
+            									path VARCHAR(100) NOT NULL,
+            									g_id INT, FOREIGN KEY(g_id) REFERENCES grave(g_id));
+        </item>
+        
+        <item >
+            CREATE TABLE IF NOT EXISTS remembrance (r_id INT PRIMARY KEY AUTOINCREMENT,
+            											g_id INT, FOREIGN KEY(g_id) REFERENCES grave(g_id),
+            											visitor_count INT,
+            											candle_count INT,
+            											wreath_count INT);
+        </item>
+        
+        <item >
+            CERATE TABLE IF NOT EXISTS comments (com_id INT PRIMARY KEY AUTOINCREMENT,
+            										g_id, FOREIGN KEY(g_id) REFERENCES grave(g_id),
+            										comment_title VARCHAR(50) NOT NULL,
+            										comment_text VARCHAR(255) NOT NULL);
+        </item>
+    
+     </string-array>
+    
+</resources>

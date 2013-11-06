@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -22,6 +24,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="de.cimitery.android.cimitery.SearchNameActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="de.cimitery.androis.cimitery.SearchNameActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        <activity
+            android:name="de.cimitery.android.cimitery.SearchLocationActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="de.cimitery.androis.cimitery.SearchlocationActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="de.cimitery.android.cimitery.NewGraveActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="de.cimitery.androis.cimitery.NewGraveActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
     </application>
 
 </manifest>

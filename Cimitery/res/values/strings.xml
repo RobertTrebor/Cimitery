@@ -3,6 +3,31 @@
 
     <string name="app_name">Cimitery</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="welcome">Welcome to Cimitery. Please select how you would like to go on:</string>
+    <string name="radio1_search">Search by name or category</string>
+    <string name="radio2_location">Search by GPS location</string>
+    <string name="welcomeButton">Enter Cimitery</string>
+    <string name="labelSearchName">Enter the name of the person you are looking for.</string>
+    <string name="labelSearchFirstname">Firstname:</string>
+    <string name="labelSearchLastname">Lastname:</string>
+    <string name="labelSelectCemetery">Select a cemetery from the list below:</string>
+    <string name="searchButton">Search for name</string>
+    
+    <string name="gpsLocateButton">Find my location</string>
+    <string name="labelLocation">GPS located you at:</string>
+    
+    <string name="labelInputFirstname">Firstname:</string>
+    <string name="labelInputLastname">Lastname:</string>
+    <string name="labelInputSex">Sex:</string>
+    <string name="buttonNewGrave">Save new grave</string>
+    <string name="buttonSelectPhoto">Select a photo</string>
+    <string name="radio_female">Female</string>
+    <string name="radio_male">Male</string>
+    
+    
+    <string-array name="cemeteryNames">
+        <item>Dorotheenstädtischer Friedhof</item>
+        <item>Friedhof Stubenrauchstrasse</item>
+    </string-array>
 
 </resources>
