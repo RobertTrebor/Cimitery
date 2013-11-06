@@ -76,6 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    
+    
+    <!-- Button zum Sichern der Eingaben und Erstellen eines neuen Datensatzes in der Datenbank -->
     <Button
         android:id="@+id/buttonNewGrave"
         android:layout_width="wrap_content"

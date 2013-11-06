@@ -18,13 +18,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 
 public class NewGraveActivity extends Activity{
 
 	EditText firstname;
 	EditText lastname;
+	RadioButton radioButton;
+	
+	Grave grave = new Grave();
 
 	
 	@Override
@@ -35,12 +43,38 @@ public class NewGraveActivity extends Activity{
 		firstname = (EditText) findViewById(R.id.editInFirstname);
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		
+		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerCemetery);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
+				android.R.layout.simple_spinner_item);
+		spinnerCem.setAdapter(spinnerAdapter);
 		
+		spinnerCem.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				grave.setCemeteryID(position);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+								
+			}
+		});
+		
+		
+		
+		Button selectPhoto = (Button) findViewById(R.id.buttonSelectPhoto);
 		Button button = (Button) findViewById(R.id.buttonNewGrave);
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				
+				//Daten für Grab eintragen:
+				
+				setAllGraveData();
 				
 				Runnable r = new Runnable() {
 					
@@ -53,9 +87,14 @@ public class NewGraveActivity extends Activity{
 
 					    try {
 					        // Add your data
-					        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-					        nameValuePairs.add(new BasicNameValuePair("firstname", firstname.getText().toString()));
-					        nameValuePairs.add(new BasicNameValuePair("lastname", lastname.getText().toString()));
+					        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+					        nameValuePairs.add(new BasicNameValuePair("firstname", grave.getFirstname()));
+					        nameValuePairs.add(new BasicNameValuePair("lastname", grave.getLastname()));
+					        nameValuePairs.add(new BasicNameValuePair("sex", grave.getSex()));
+					        nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(grave.getCemeteryID())));
+					        nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(grave.getLatitude())));
+					        nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(grave.getLongitude())));
+					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", grave.getTombstonePath()));
 					        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					        Log.d("NEWGRAVEACT", "httppost.setEntity");
 
@@ -67,13 +106,9 @@ public class NewGraveActivity extends Activity{
 					        
 					        Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
 					    } catch (ClientProtocolException e) {
-					        // TODO Auto-generated catch block
 					    	e.printStackTrace();
-					    	
 					    } catch (IOException e) {
-					        // TODO Auto-generated catch block
 					    	e.printStackTrace();
-					    	
 					    }
 						
 					}
@@ -84,7 +119,20 @@ public class NewGraveActivity extends Activity{
 			}
 		});
 	}
+
+
+	protected void setAllGraveData() {
+		grave.setFirstname(firstname.getText().toString());
+		grave.setLastname(lastname.getText().toString());
+		grave.setSex(radioButtonToChar(radioButton.getId()));
+		
+	}
 	
-	
+	protected String radioButtonToChar(int id) {
+		String sex = "f";
+		if(id == R.id.radioMale)
+			sex = "m";
+		return sex;
+	}
 
 }
