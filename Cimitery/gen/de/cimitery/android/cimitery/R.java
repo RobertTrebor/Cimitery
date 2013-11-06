@@ -32,7 +32,6 @@ public final class R {
         public static final int action_newgrave=0x7f09001d;
         public static final int action_searchlocation=0x7f09001f;
         public static final int action_searchname=0x7f09001e;
-        public static final int action_settings=0x7f090021;
         public static final int buttonNewGrave=0x7f090010;
         public static final int buttonSearchName=0x7f09001c;
         public static final int buttonSelectPhoto=0x7f090005;
@@ -64,10 +63,11 @@ public final class R {
         public static final int welcomeText=0x7f090000;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_newgrave=0x7f030001;
-        public static final int activity_searchlocation=0x7f030002;
-        public static final int activity_searchname=0x7f030003;
+        public static final int activity_foundbyname=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_newgrave=0x7f030002;
+        public static final int activity_searchlocation=0x7f030003;
+        public static final int activity_searchname=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f080000;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -60,6 +61,35 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		Log.d(TAG, "Ausgewählt: " + radioButton.getText());
 		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+	    case R.id.action_newgrave:
+	    	Intent intent1 = new Intent(this, NewGraveActivity.class);
+			startActivity(intent1);
+			break;
+	    case R.id.action_searchlocation:
+	    	Intent intent2 = new Intent(this, SearchLocationActivity.class);
+			startActivity(intent2);
+	    	break;
+	      
+	    case R.id.action_searchname:
+	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
+			startActivity(intent3);
+		      break;
+		      
+	    case R.id.action_finish:
+	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
+			//startActivity(intent4);
+		      break;
+
+	    default:
+	      break;
+	    }
+
+	    return true;
 	}
 
 }
