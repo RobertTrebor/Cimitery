@@ -28,7 +28,11 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001d;
+        public static final int action_finish=0x7f090020;
+        public static final int action_newgrave=0x7f09001d;
+        public static final int action_searchlocation=0x7f09001f;
+        public static final int action_searchname=0x7f09001e;
+        public static final int action_settings=0x7f090021;
         public static final int buttonNewGrave=0x7f090010;
         public static final int buttonSearchName=0x7f09001c;
         public static final int buttonSelectPhoto=0x7f090005;
@@ -69,28 +73,34 @@ public final class R {
         public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int action_settings=0x7f040003;
+        public static final int action_finish=0x7f040018;
+        /**  ActionBar Menu 
+         */
+        public static final int action_newgrave=0x7f040015;
+        public static final int action_searchbylocation=0x7f040017;
+        public static final int action_searchbyname=0x7f040016;
+        public static final int action_settings=0x7f040019;
         public static final int app_name=0x7f040002;
-        public static final int buttonNewGrave=0x7f040012;
-        public static final int buttonSelectPhoto=0x7f040013;
+        public static final int buttonNewGrave=0x7f040011;
+        public static final int buttonSelectPhoto=0x7f040012;
         public static final int database=0x7f040000;
-        public static final int gpsLocateButton=0x7f04000d;
-        public static final int labelInputFirstname=0x7f04000f;
-        public static final int labelInputLastname=0x7f040010;
-        public static final int labelInputSex=0x7f040011;
-        public static final int labelLocation=0x7f04000e;
-        public static final int labelSearchFirstname=0x7f040009;
-        public static final int labelSearchLastname=0x7f04000a;
-        public static final int labelSearchName=0x7f040008;
-        public static final int labelSelectCemetery=0x7f04000b;
-        public static final int radio1_search=0x7f040005;
-        public static final int radio2_location=0x7f040006;
-        public static final int radio_female=0x7f040014;
-        public static final int radio_male=0x7f040015;
-        public static final int searchButton=0x7f04000c;
+        public static final int gpsLocateButton=0x7f04000c;
+        public static final int labelInputFirstname=0x7f04000e;
+        public static final int labelInputLastname=0x7f04000f;
+        public static final int labelInputSex=0x7f040010;
+        public static final int labelLocation=0x7f04000d;
+        public static final int labelSearchFirstname=0x7f040008;
+        public static final int labelSearchLastname=0x7f040009;
+        public static final int labelSearchName=0x7f040007;
+        public static final int labelSelectCemetery=0x7f04000a;
+        public static final int radio1_search=0x7f040004;
+        public static final int radio2_location=0x7f040005;
+        public static final int radio_female=0x7f040013;
+        public static final int radio_male=0x7f040014;
+        public static final int searchButton=0x7f04000b;
         public static final int version=0x7f040001;
-        public static final int welcome=0x7f040004;
-        public static final int welcomeButton=0x7f040007;
+        public static final int welcome=0x7f040003;
+        public static final int welcomeButton=0x7f040006;
     }
     public static final class style {
         /** 
