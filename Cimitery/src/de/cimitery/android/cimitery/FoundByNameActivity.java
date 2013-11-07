@@ -31,12 +31,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class FoundByNameActivity extends ListActivity {
 	
 	protected static StringBuilder jsonstr;
 	String firstname, lastname;
+	String[] array;
 	long c_id;
 	
 String message;
@@ -52,16 +54,12 @@ String message;
 	//RL******************************************
 			
 			ArrayList<String> results = parseJson(dbReturned);
-			String[] array = new String[results.size()];
+			array = new String[results.size()];
 			for (int i = 0; i < results.size(); i++) {
 				array[i] = results.get(i);
 			}
 			
-			//ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.activity_foundbyname, c, array, to);
 			
-			//setListAdapter(adapter);
-			
-			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		}
 	};
 
@@ -78,6 +76,12 @@ String message;
 		}
 		
 		sendRequestToDatabase();
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter(this, R.layout.activity_foundbyname, array);
+			
+		setListAdapter(adapter);
+			
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
