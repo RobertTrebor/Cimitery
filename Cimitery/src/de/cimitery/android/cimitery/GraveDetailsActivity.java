@@ -31,34 +31,39 @@ import android.widget.TextView;
 public class GraveDetailsActivity extends Activity implements OnClickListener{
 	
 	String vitaPath;
+	String tombstonePath;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gravedetails);
 		
-		if(getIntent() != null ){
-			long g_id = getIntent().getLongExtra("g_id", 1);
-			String firstname = getIntent().getStringExtra("firstname");
-			String lastname = getIntent().getStringExtra("lastname");
-			String sex = getIntent().getStringExtra("sex");
-			String dateBirth = getIntent().getStringExtra("dateBirth");
-			String dateDeath = getIntent().getStringExtra("dateDeath");
-			vitaPath = getIntent().getStringExtra("vitaPath");
-			String tombstonePath = getIntent().getStringExtra("tombstonePath");
-			double latitude = getIntent().getDoubleExtra("latitude", 1);
-			double longitude = getIntent().getDoubleExtra("longitude", 1);
-		}
-		
 		TextView firstname = (TextView) findViewById(R.id.tf_firstname);
 		TextView lastname = (TextView) findViewById(R.id.tf_lastname);
-		TextView dateBirth = (TextView) findViewById(R.id.tfDateBirth);
-		TextView dateDeath = (TextView) findViewById(R.id.tfDateDeath);
-		TextView cemName = (TextView) findViewById(R.id.tf_cemeteryName);
-		TextView cemCity = (TextView) findViewById(R.id.tf_cemeteryCity);
-		Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
+		//TextView dateBirth = (TextView) findViewById(R.id.tfDateBirth);
+		//TextView dateDeath = (TextView) findViewById(R.id.tfDateDeath);
+		TextView latitude = (TextView) findViewById(R.id.tf_latitude);
+		TextView longitude = (TextView) findViewById(R.id.tf_longitude);
+
+		//Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
 		
-		linkButton.setOnClickListener(this);
+		if(getIntent() != null ){
+			long g_id = getIntent().getLongExtra("g_id", 1); //noch zu implementieren
+			String sex = getIntent().getStringExtra("sex");  //noch zu implementieren
+			firstname.setText(getIntent().getStringExtra("firstname"));
+			String testfn = getIntent().getStringExtra("firstname");
+			Log.d("GraveDetails", testfn);
+			lastname.setText(getIntent().getStringExtra("lastname"));
+			//dateBirth.setText(getIntent().getStringExtra("dateBirth"));
+			//dateDeath.setText(getIntent().getStringExtra("dateDeath"));
+			longitude.setText("Longitude: " + getIntent().getDoubleExtra("longitude", 1));
+			latitude.setText("Latitude: " + getIntent().getDoubleExtra("latitude", 1));
+		
+			vitaPath = getIntent().getStringExtra("vitaPath");
+			tombstonePath = getIntent().getStringExtra("tombstonePath");
+		}
+		
+		//linkButton.setOnClickListener(this);
 
 	}
 	
