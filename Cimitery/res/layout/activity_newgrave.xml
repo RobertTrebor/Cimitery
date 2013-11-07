@@ -10,6 +10,18 @@
         android:layout_height="wrap_content"
         android:text="@string/buttonSelectPhoto" />
 
+    <ImageView
+        android:id="@+id/imageViewTombstone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_TombstonePath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <TextView
         android:id="@+id/labelInFirstname"
         android:layout_width="wrap_content"
