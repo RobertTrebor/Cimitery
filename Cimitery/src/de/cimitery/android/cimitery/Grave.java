@@ -15,6 +15,7 @@ public class Grave {
 	private double latitude;
 	private double longitude;
 	private String vitaPath;
+	private String tombstonePath;
 	
 	public Grave() {
 		
@@ -118,6 +119,16 @@ public class Grave {
 
 	public void setVitaPath(String vitaPath) {
 		this.vitaPath = vitaPath;
+	}
+
+
+	public String getTombstonePath() {
+		return tombstonePath;
+	}
+
+
+	public void setTombstonePath(String tombstonePath) {
+		this.tombstonePath = tombstonePath;
 	}
 	
 

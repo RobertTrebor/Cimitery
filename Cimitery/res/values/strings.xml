@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Cimitery</string>
-    <string name="action_settings">Settings</string>
+    
     <string name="welcome">Welcome to Cimitery. Please select how you would like to go on:</string>
     <string name="radio1_search">Search by name or category</string>
     <string name="radio2_location">Search by GPS location</string>
@@ -29,5 +29,13 @@
         <item>Dorotheenstädtischer Friedhof</item>
         <item>Friedhof Stubenrauchstrasse</item>
     </string-array>
+    
+    
+    <!-- ActionBar Menu -->
+    <string name="action_newgrave">New grave</string>
+    <string name="action_searchbyname">Search by name</string>
+    <string name="action_searchbylocation">Search by Location</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

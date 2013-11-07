@@ -1,6 +1,7 @@
 package de.cimitery.android.cimitery;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ public class SearchNameActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_searchname);
 		
 		Button searchButton = (Button) findViewById(R.id.buttonSearchName);
+		searchButton.setOnClickListener(this);
 		firstname = (EditText) findViewById(R.id.inputSearchFirstname);
 		lastname = (EditText) findViewById(R.id.inputSearchLastname);
 		
@@ -57,16 +59,16 @@ public class SearchNameActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		
-		grave = new Grave(firstname.getText().toString(), lastname.getText().toString(), c_id);
+		//grave = new Grave(firstname.getText().toString(), lastname.getText().toString(), c_id);
 		
-		
-		//Anfrage an Datenbank senden
-		
-		
-		//Ergebnisliste
-		
+		Intent intent = new Intent(this, FoundByNameActivity.class);
+		intent.putExtra("firstname", firstname.getText().toString());
+		intent.putExtra("lastname", lastname.getText().toString());
+		intent.putExtra("c_id", c_id);
+		startActivity(intent);
+
 	}
-	
+
 	public String[] retrieveItems() {
 		//abholen aller Friedhöfe aus der Datenbank
 		//zum Füllen des Spinners
@@ -74,5 +76,7 @@ public class SearchNameActivity extends Activity implements OnClickListener{
 		return null;
 		
 	}
+	
+	
 
 }
