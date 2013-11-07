@@ -1,6 +1,8 @@
 package de.cimitery.android.cimitery;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -54,7 +60,7 @@ public class NewGraveActivity extends Activity{
 	TextView tv_TombstonePath;
 	ExifData exif;
 
-	
+	/////////////////////////////////// --- ONCREATE --- ////////////////////////////////////////////
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,13 +69,13 @@ public class NewGraveActivity extends Activity{
 		firstname = (EditText) findViewById(R.id.editInFirstname);
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		
-		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerCemetery);
+		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
 				android.R.layout.simple_spinner_item);
 		spinnerCem.setAdapter(spinnerAdapter);
-		
 		spinnerCem.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+			
+			//////////////////////// ---SPINNER LISTENER --- ////////////////////////////////////////
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -86,28 +92,29 @@ public class NewGraveActivity extends Activity{
 		
 		Button buttonSelectPhoto = (Button) findViewById(R.id.buttonSelectPhoto);
 		buttonSelectPhoto.setOnClickListener(new OnClickListener() {
+				//////////////////////// --- SELECTPHOTO LISTENER --- /////////////////////////////	
+				@Override
+				public void onClick(View v) {
+					Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+					photoPickerIntent.setType("image/*");
+					startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+				}
 
-					@Override
-					public void onClick(View v) {
-						Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-						photoPickerIntent.setType("image/*");
-						startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-					}
-
-				});
-		Button button = (Button) findViewById(R.id.buttonNewGrave);
+			});
 		
+		
+		Button button = (Button) findViewById(R.id.buttonNewGrave);
 		button.setOnClickListener(new OnClickListener() {
-			
+			///////////////////////// --- SAVE NEW GRAVE LISTENER --- ///////////////////////////
 			@Override
 			public void onClick(View v) {
 				
 				//Daten für Grab eintragen:
-				
 				setAllGraveData();
 				
 				Runnable r = new Runnable() {
 					
+					////////////////////// --- RUN FÜR DB-THREAD --- ////////////////////////////
 					@Override
 					public void run() {
 						Log.d("NEWGRAVEACT", "Am Anfang von run");
@@ -150,25 +157,14 @@ public class NewGraveActivity extends Activity{
 		});
 	}
 	
-	
+	//////////////////////////////// --- ONACTIVITYRESULT --- /////////////////////////////////////
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
 		Log.d("requestCode: " + requestCode, "resultCode: " + resultCode);
-		/*
-		 * switch(requestCode) { case SELECT_PHOTO: if(resultCode == RESULT_OK){
-		 * Uri selectedImage = imageReturnedIntent.getData(); InputStream
-		 * imageStream = null; try { imageStream =
-		 * getContentResolver().openInputStream(selectedImage); } catch
-		 * (FileNotFoundException e) { e.printStackTrace(); } yourSelectedImage
-		 * = BitmapFactory.decodeStream(imageStream); } }
-		 * 
-		 * imageViewTombstone = (ImageView)
-		 * findViewById(R.id.imageViewTombstone);
-		 * imageViewTombstone.setImageBitmap(yourSelectedImage);
-		 */
+	
 		Log.d("DEBUG", "BEFORE IF");
 		Log.d("resultCode", ((Integer) resultCode).toString());
 		if (resultCode == Activity.RESULT_OK) {
@@ -191,6 +187,17 @@ public class NewGraveActivity extends Activity{
 				Log.d("DEBUG", "imagePath.getBytes();");
 				TextView tv_TombstonePath = (TextView) findViewById(R.id.tv_TombstonePath);
 				tv_TombstonePath.setText(selectedImagePath.toString());
+				
+				InputStream imageStream = null;
+				Uri selectedImage = imageReturnedIntent.getData();
+				try {
+					imageStream = getContentResolver().openInputStream(selectedImage);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+				imageViewTombstone = (ImageView) findViewById(R.id.imageViewTombstone);
+				imageViewTombstone.setImageBitmap(yourSelectedImage);
 
 				// Bitmap bm = BitmapFactory.decodeFile(imagePath);
 
@@ -239,6 +246,8 @@ public class NewGraveActivity extends Activity{
 		}
 	}
 	
+	
+	//////////////////////////// --- GETPATH FÜR PHOTOSELECT--- ///////////////////////////////////
 	public String getPath(Uri uri) {
 		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
@@ -250,7 +259,7 @@ public class NewGraveActivity extends Activity{
 	}
 
 
-
+	////////////////////////// --- ERFASSUNG ALLER DATEN FÜR DB --- ////////////////////////////
 	protected void setAllGraveData() {
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
@@ -263,6 +272,50 @@ public class NewGraveActivity extends Activity{
 		if(id == R.id.radioMale)
 			sex = "m";
 		return sex;
+	}
+	
+	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		 MenuInflater inflater = getMenuInflater();
+		 inflater.inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+	    case R.id.action_newgrave:
+	    	Log.d("onOptionsItemSelected", "NewGraveActivity.class");
+	    	Intent intent1 = new Intent(this, NewGraveActivity.class);
+			startActivity(intent1);
+			break;
+			
+	    case R.id.action_searchlocation:
+	    	Log.d("onOptionsItemSelected", "SearchLocationActivity.class");
+	    	Intent intent2 = new Intent(this, SearchLocationActivity.class);
+			startActivity(intent2);
+	    	break;
+	    	
+	    case R.id.action_searchname:
+	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
+	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
+			startActivity(intent3);
+		      break;
+		      
+	    case R.id.action_finish:
+	    	Log.d("onOptionsItemSelected", "finish");
+	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
+			//startActivity(intent4);
+		      break;
+
+	    default:
+	      break;
+	    }
+
+	    return true;
 	}
 
 }

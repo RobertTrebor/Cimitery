@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:orientation="vertical">
+
+		<TableLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:id="@+id/block1namen"
+			android:layout_margin="10dp">
+
+			<TableRow
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content">
+
+				
+
+					<TextView
+						android:layout_height="wrap_content"
+						android:text=""
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:layout_width="wrap_content"
+						android:id="@+id/tf_cemeteryName"/>
+
+					<TextView
+						android:layout_height="wrap_content"
+						android:text=""
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:layout_width="wrap_content"
+						android:id="@+id/tf_cemeteryCity"/>
+
+				
+
+			</TableRow>
+
+			<TableRow
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content">
+
+				
+
+					<TextView
+						android:layout_height="wrap_content"
+						android:text=""
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:layout_width="wrap_content"
+						android:id="@+id/tf_firstname"/>
+
+					<TextView
+						android:layout_height="wrap_content"
+						android:text=""
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:layout_width="wrap_content"
+						android:id="@+id/tf_lastname"/>
+
+				
+
+			</TableRow>
+
+		
+
+			<TableRow
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content">
+
+									<LinearLayout
+						android:layout_height="wrap_content"
+						android:layout_width="wrap_content"
+						android:orientation="vertical">
+
+						<TextView
+						    android:id="@+id/tfDateBirth"
+							android:layout_height="wrap_content"
+							android:text=""
+							android:layout_width="wrap_content"/>
+
+						<TextView
+						    android:id="@+id/tfDateDeath"
+							android:layout_height="wrap_content"
+							android:text=""
+							android:layout_width="wrap_content"/>
+
+						<Button
+						    android:id="@+id/buttonVitaLink"
+							android:layout_height="wrap_content"
+							android:text="@string/buttonLinkVita"
+							android:layout_width="wrap_content"/>
+
+					</LinearLayout>
+
+				<ImageView 
+				    android:id="@+id/imageTombstone"
+				    android:layout_width="wrap_content"
+        			android:layout_height="wrap_content"/>
+
+			</TableRow>
+
+		</TableLayout>
+
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:orientation="horizontal"
+			android:id="@+id/block3map"/>
+
+	</LinearLayout>
+
+</ScrollView>
+

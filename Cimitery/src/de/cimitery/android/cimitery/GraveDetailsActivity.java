@@ -15,124 +15,57 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class FoundByNameActivity extends ListActivity {
+public class GraveDetailsActivity extends Activity{
 	
 	protected static StringBuilder jsonstr;
-	String firstname, lastname;
-	long c_id;
+	long g_id;
 	
-String message;
-	
-	Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			Bundle bundle = msg.getData();
-			String str = bundle.getString("mykey");
-			message = str;
-			Log.d("IM HANDLER", message);
-			String dbReturned = message;
-			System.out.println("***************DID WE GET THE: " + message);
-	//RL******************************************
-			
-			ArrayList<String> results = parseJson(dbReturned);
-			String[] array = new String[results.size()];
-			for (int i = 0; i < results.size(); i++) {
-				array[i] = results.get(i);
-			}
-			
-			//ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.activity_foundbyname, c, array, to);
-			
-			//setListAdapter(adapter);
-			
-			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		}
-	};
-
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_foundbyname);
+		setContentView(R.layout.activity_gravedetails);
 		
 		if(getIntent() != null ){
-			firstname = getIntent().getStringExtra("firstname");
-			lastname = getIntent().getStringExtra("lastname");
-			c_id = getIntent().getLongExtra("c_id", 1);
+			g_id = getIntent().getLongExtra("id",1);
 		}
 		
-		sendRequestToDatabase();
+		TextView firstname = (TextView) findViewById(R.id.tf_firstname);
+		TextView lastname = (TextView) findViewById(R.id.tf_lastname);
+		TextView dateBirth = (TextView) findViewById(R.id.tfDateBirth);
+		TextView dateDeath = (TextView) findViewById(R.id.tfDateDeath);
+		TextView cemName = (TextView) findViewById(R.id.tf_cemeteryName);
+		TextView cemCity = (TextView) findViewById(R.id.tf_cemeteryCity);
+		Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
 		
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				//Intent intent = new Intent(this, GraveDetailsActivity.class);
-				
-				
-			}
-		});
-
+		pickUpData(g_id);
 	}
-
-	private ArrayList<String> parseJson(String dbReturned) {
-		ArrayList<String> liste = new ArrayList<String>();
-		Log.d("Anfang von Parsen", "ArrayList erstellt");
-		
-		try {
-			JSONArray jsonArray = new JSONArray(dbReturned);
-			for (int i = 0; i < jsonArray.length(); i++) {
-				
-				JSONObject jason = jsonArray.getJSONObject(i);
-				firstname = jason.getString("firstname").toString();
-				lastname = jason.getString("lastname").toString();
-				String birthdate = jason.get("datebirth").toString();
-				String personInfo = firstname + " " + lastname + " born: " + birthdate;
-				liste.add(personInfo);
-			}
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return liste;
-	}
-
-	private void sendRequestToDatabase() {
-		
+	
+	
+	
+	private void pickUpData(long id) {
 		Runnable r = new Runnable() {
 
 			@Override
 			public void run() {
-				Log.d("SEARCH BY NAME, LISTACT", "Am Anfang von run");
 
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = new HttpPost(
-						"http://www.lengsfeld.de/cimitery/selectbyname.php");
+						"http://www.lengsfeld.de/cimitery/selectbyid.php");
 
 				try {
 					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-					nameValuePairs.add(new BasicNameValuePair("firstname", firstname));
-					nameValuePairs.add(new BasicNameValuePair("lastname", lastname));
-					nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(c_id)));
+					nameValuePairs.add(new BasicNameValuePair("g_id", String.valueOf(g_id)));
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					
 					HttpResponse response = httpclient.execute(httppost);
@@ -148,11 +81,7 @@ String message;
 			            	jsonstr.append((line + "\n"));
 			            }
 			            
-			            Bundle bundle = new Bundle();
-			            bundle.putString("mykey", jsonstr.toString());
-			            Message msg = handler.obtainMessage();
-			            msg.setData(bundle);
-			            handler.sendMessage(msg);
+			            //Json parsen mit parser-klasse
 			            
 			        } catch (IOException e) {
 			            e.printStackTrace();
@@ -170,8 +99,11 @@ String message;
 		};
 
 		(new Thread(r)).start();
+		
 	}
-	
+
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
