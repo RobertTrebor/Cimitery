@@ -28,10 +28,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_finish=0x7f09002c;
-        public static final int action_newgrave=0x7f090029;
-        public static final int action_searchlocation=0x7f09002b;
-        public static final int action_searchname=0x7f09002a;
+        public static final int action_finish=0x7f09002d;
+        public static final int action_newgrave=0x7f09002a;
+        public static final int action_searchlocation=0x7f09002c;
+        public static final int action_searchname=0x7f09002b;
         public static final int block1namen=0x7f090000;
         public static final int block3map=0x7f090009;
         public static final int buttonNewGrave=0x7f09001c;
@@ -72,6 +72,7 @@ public final class R {
         public static final int tf_firstname=0x7f090003;
         public static final int tf_lastname=0x7f090004;
         public static final int tv_TombstonePath=0x7f090011;
+        public static final int webviewid=0x7f090029;
         public static final int welcomeText=0x7f09000a;
     }
     public static final class layout {
@@ -81,6 +82,8 @@ public final class R {
         public static final int activity_newgrave=0x7f030003;
         public static final int activity_searchlocation=0x7f030004;
         public static final int activity_searchname=0x7f030005;
+        public static final int activity_web_view=0x7f030006;
+        public static final int webview=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f080000;

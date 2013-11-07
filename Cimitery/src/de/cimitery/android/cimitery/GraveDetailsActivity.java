@@ -23,13 +23,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GraveDetailsActivity extends Activity{
+public class GraveDetailsActivity extends Activity implements OnClickListener{
 	
-	protected static StringBuilder jsonstr;
-	long g_id;
+	String vitaPath;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,16 @@ public class GraveDetailsActivity extends Activity{
 		setContentView(R.layout.activity_gravedetails);
 		
 		if(getIntent() != null ){
-			g_id = getIntent().getLongExtra("id",1);
+			long g_id = getIntent().getLongExtra("g_id", 1);
+			String firstname = getIntent().getStringExtra("firstname");
+			String lastname = getIntent().getStringExtra("lastname");
+			String sex = getIntent().getStringExtra("sex");
+			String dateBirth = getIntent().getStringExtra("dateBirth");
+			String dateDeath = getIntent().getStringExtra("dateDeath");
+			vitaPath = getIntent().getStringExtra("vitaPath");
+			String tombstonePath = getIntent().getStringExtra("tombstonePath");
+			double latitude = getIntent().getDoubleExtra("latitude", 1);
+			double longitude = getIntent().getDoubleExtra("longitude", 1);
 		}
 		
 		TextView firstname = (TextView) findViewById(R.id.tf_firstname);
@@ -48,61 +58,12 @@ public class GraveDetailsActivity extends Activity{
 		TextView cemCity = (TextView) findViewById(R.id.tf_cemeteryCity);
 		Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
 		
-		pickUpData(g_id);
+		linkButton.setOnClickListener(this);
+
 	}
 	
 	
 	
-	private void pickUpData(long id) {
-		Runnable r = new Runnable() {
-
-			@Override
-			public void run() {
-
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(
-						"http://www.lengsfeld.de/cimitery/selectbyid.php");
-
-				try {
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-					nameValuePairs.add(new BasicNameValuePair("g_id", String.valueOf(g_id)));
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					
-					HttpResponse response = httpclient.execute(httppost);
-
-			        InputStream input = response.getEntity().getContent();
-			        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			        FoundByNameActivity.jsonstr = new StringBuilder();
-
-			        String line = null;
-					try {
-						
-			            while ((line = reader.readLine()) != null) {
-			            	jsonstr.append((line + "\n"));
-			            }
-			            
-			            //Json parsen mit parser-klasse
-			            
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        } finally {
- 		                input.close();
- 			        }
-					
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-		};
-
-		(new Thread(r)).start();
-		
-	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,5 +105,15 @@ public class GraveDetailsActivity extends Activity{
 
 	    return true;
 	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intentWebView = new Intent(this, WebViewActivity.class);
+		intentWebView.putExtra("link", vitaPath);
+		startActivity(intentWebView);
+	}
+
+
+
 
 }

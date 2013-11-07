@@ -43,9 +43,7 @@ public class FoundByNameActivity extends ListActivity {
 	String firstname, lastname;
 	String[] array;
 	long c_id;
-	long g_id;
 	String message;
-	ArrayList<Long> numberList;
 	ArrayList<Grave> graveList;
 	
 	Handler handler = new Handler() {
@@ -53,25 +51,14 @@ public class FoundByNameActivity extends ListActivity {
 			Bundle bundle = msg.getData();
 			String str = bundle.getString("mykey");
 			message = str;
-			Log.d("IM HANDLER", message);
 			String dbReturned = message;
-			System.out.println("***************DID WE GET THE: " + message);
-
-			/*
-			dbReturned = "["+
-					"{\"firstname\":\"Anna\", \"lastname\":\"Seghers\", \"datebirth\":\"19.11.1900\"},"+ 
-					"{\"firstname\":\"Arnold\", \"lastname\":\"Zweig\", \"datebirth\":\"10.11.1887\"}"+ 
-					"]";
-			*/
 			
 			ArrayList<String> results = parseJson(dbReturned);
 			array = new String[results.size()];
 			for (int i = 0; i < results.size(); i++) {
 				array[i] = results.get(i);
 			}
-			
-			//String[] array2 = {"Anna Seghers 19.11.1900", "Arnold Zweig 10.11.1887", "Marlene Dietrich"};
-			
+						
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(FoundByNameActivity.this, android.R.layout.simple_list_item_1, array);			
 			
 			setListAdapter(adapter);
@@ -99,13 +86,11 @@ public class FoundByNameActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//g_id = numberList.get(position);
-				//Log.d("FoundByName --- Auswahl:", "ID ist: " + g_id + " Position: " + position);
-				
+								
 				Grave grave = new Grave();
 				grave = graveList.get(position);
 				
-				String gender;
+				String gender = "";
 				if(grave.getSex().equals("f"))
 					gender = "female";
 				gender = "male";
@@ -132,7 +117,6 @@ public class FoundByNameActivity extends ListActivity {
 
 	private ArrayList<String> parseJson(String dbReturned) {
 		ArrayList<String> liste = new ArrayList<String>();
-		//numberList = new ArrayList<Long>();
 		graveList = new ArrayList<Grave>();
 		Log.d("Anfang von Parsen", "ArrayList erstellt");
 		
@@ -148,8 +132,6 @@ public class FoundByNameActivity extends ListActivity {
 				String birthdate = jason.get("datebirth").toString();
 				String personInfo = firstname + " " + lastname + " born: " + birthdate;
 				liste.add(personInfo);
-				//g_id = jason.getLong("g_id");
-				//numberList.add(g_id);
 				Grave g = new Grave();
 				g.setFirstname(firstname);
 				g.setLastname(lastname);
@@ -160,7 +142,11 @@ public class FoundByNameActivity extends ListActivity {
 				g.setLatitude(jason.getDouble("latitude"));
 				g.setLongitude(jason.getDouble("longitude"));
 				g.setGraveID(jason.getLong("g_id"));
+				g.setSex(jason.getString("sex"));
+				graveList.add(g);
 			}
+			
+			Log.d("FoundByName graveList", "Size of graveList: " + graveList.size());
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
