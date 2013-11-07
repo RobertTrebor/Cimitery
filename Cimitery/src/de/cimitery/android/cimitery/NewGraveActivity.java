@@ -1,6 +1,8 @@
 package de.cimitery.android.cimitery;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -161,18 +164,7 @@ public class NewGraveActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
 		Log.d("requestCode: " + requestCode, "resultCode: " + resultCode);
-		/*
-		 * switch(requestCode) { case SELECT_PHOTO: if(resultCode == RESULT_OK){
-		 * Uri selectedImage = imageReturnedIntent.getData(); InputStream
-		 * imageStream = null; try { imageStream =
-		 * getContentResolver().openInputStream(selectedImage); } catch
-		 * (FileNotFoundException e) { e.printStackTrace(); } yourSelectedImage
-		 * = BitmapFactory.decodeStream(imageStream); } }
-		 * 
-		 * imageViewTombstone = (ImageView)
-		 * findViewById(R.id.imageViewTombstone);
-		 * imageViewTombstone.setImageBitmap(yourSelectedImage);
-		 */
+	
 		Log.d("DEBUG", "BEFORE IF");
 		Log.d("resultCode", ((Integer) resultCode).toString());
 		if (resultCode == Activity.RESULT_OK) {
@@ -195,6 +187,17 @@ public class NewGraveActivity extends Activity{
 				Log.d("DEBUG", "imagePath.getBytes();");
 				TextView tv_TombstonePath = (TextView) findViewById(R.id.tv_TombstonePath);
 				tv_TombstonePath.setText(selectedImagePath.toString());
+				
+				InputStream imageStream = null;
+				Uri selectedImage = imageReturnedIntent.getData();
+				try {
+					imageStream = getContentResolver().openInputStream(selectedImage);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+				imageViewTombstone = (ImageView) findViewById(R.id.imageViewTombstone);
+				imageViewTombstone.setImageBitmap(yourSelectedImage);
 
 				// Bitmap bm = BitmapFactory.decodeFile(imagePath);
 

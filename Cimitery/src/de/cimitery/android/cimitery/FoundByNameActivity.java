@@ -22,6 +22,8 @@ import org.json.JSONObject;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +38,32 @@ public class FoundByNameActivity extends ListActivity {
 	protected static StringBuilder jsonstr;
 	String firstname, lastname;
 	long c_id;
+	
+String message;
+	
+	Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			Bundle bundle = msg.getData();
+			String str = bundle.getString("mykey");
+			message = str;
+			Log.d("IM HANDLER", message);
+			String dbReturned = message;
+			System.out.println("***************DID WE GET THE: " + message);
+	//RL******************************************
+			
+			ArrayList<String> results = parseJson(dbReturned);
+			String[] array = new String[results.size()];
+			for (int i = 0; i < results.size(); i++) {
+				array[i] = results.get(i);
+			}
+			
+			//ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.activity_foundbyname, c, array, to);
+			
+			//setListAdapter(adapter);
+			
+			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		}
+	};
 
 
 	@Override
@@ -49,19 +77,7 @@ public class FoundByNameActivity extends ListActivity {
 			c_id = getIntent().getLongExtra("c_id", 1);
 		}
 		
-		String dbReturned = sendRequestToDatabase();
-		
-		ArrayList<String> results = parseJson(dbReturned);
-		String[] array = new String[results.size()];
-		for (int i = 0; i < results.size(); i++) {
-			array[i] = results.get(i);
-		}
-		
-		//ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.activity_foundbyname, c, array, to);
-		
-		//setListAdapter(adapter);
-		
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		sendRequestToDatabase();
 		
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
@@ -100,7 +116,7 @@ public class FoundByNameActivity extends ListActivity {
 		return liste;
 	}
 
-	private String sendRequestToDatabase() {
+	private void sendRequestToDatabase() {
 		
 		Runnable r = new Runnable() {
 
@@ -132,7 +148,11 @@ public class FoundByNameActivity extends ListActivity {
 			            	jsonstr.append((line + "\n"));
 			            }
 			            
-			            //Json parsen mit parser-klasse
+			            Bundle bundle = new Bundle();
+			            bundle.putString("mykey", jsonstr.toString());
+			            Message msg = handler.obtainMessage();
+			            msg.setData(bundle);
+			            handler.sendMessage(msg);
 			            
 			        } catch (IOException e) {
 			            e.printStackTrace();
@@ -150,9 +170,6 @@ public class FoundByNameActivity extends ListActivity {
 		};
 
 		(new Thread(r)).start();
-		
-		return jsonstr.toString();
-
 	}
 	
 	@Override
