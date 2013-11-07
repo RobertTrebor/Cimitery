@@ -48,7 +48,7 @@ public class SearchNameActivity extends Activity implements OnClickListener{
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				
-				c_id = position;
+				c_id = position + 1;
 								
 			}
 
