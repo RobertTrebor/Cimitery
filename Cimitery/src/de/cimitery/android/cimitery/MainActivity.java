@@ -67,20 +67,25 @@ public class MainActivity extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 	    case R.id.action_newgrave:
+	    	Log.d("onOptionsItemSelected", "NewGraveActivity.class");
 	    	Intent intent1 = new Intent(this, NewGraveActivity.class);
 			startActivity(intent1);
 			break;
+			
 	    case R.id.action_searchlocation:
+	    	Log.d("onOptionsItemSelected", "SearchLocationActivity.class");
 	    	Intent intent2 = new Intent(this, SearchLocationActivity.class);
 			startActivity(intent2);
 	    	break;
-	      
+	    	
 	    case R.id.action_searchname:
+	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
 	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
 			startActivity(intent3);
 		      break;
 		      
 	    case R.id.action_finish:
+	    	Log.d("onOptionsItemSelected", "finish");
 	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
 			//startActivity(intent4);
 		      break;

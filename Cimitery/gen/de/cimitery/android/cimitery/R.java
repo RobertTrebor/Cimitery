@@ -59,8 +59,8 @@ public final class R {
         public static final int radioLocation=0x7f090003;
         public static final int radioMale=0x7f09000f;
         public static final int radioSearch=0x7f090002;
-        public static final int spinner1=0x7f090011;
         public static final int spinnerCemetery=0x7f090018;
+        public static final int spinnerNewGrave=0x7f090011;
         public static final int tv_TombstonePath=0x7f090007;
         public static final int welcomeText=0x7f090000;
     }
