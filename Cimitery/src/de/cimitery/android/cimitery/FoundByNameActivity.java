@@ -46,6 +46,7 @@ public class FoundByNameActivity extends ListActivity {
 	long g_id;
 	String message;
 	ArrayList<Long> numberList;
+	ArrayList<Grave> graveList;
 	
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -98,10 +99,31 @@ public class FoundByNameActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				g_id = numberList.get(position + 1);
+				//g_id = numberList.get(position);
+				//Log.d("FoundByName --- Auswahl:", "ID ist: " + g_id + " Position: " + position);
+				
+				Grave grave = new Grave();
+				grave = graveList.get(position);
+				
+				String gender;
+				if(grave.getSex().equals("f"))
+					gender = "female";
+				gender = "male";
+				
 				
 				Intent intent = new Intent(FoundByNameActivity.this, GraveDetailsActivity.class);
-				intent.putExtra("g_id", g_id);
+				
+				intent.putExtra("firstname", grave.getFirstname());
+				intent.putExtra("lastname", grave.getLastname());
+				intent.putExtra("sex", gender);
+				intent.putExtra("dateBirth", grave.getDateBirth());
+				intent.putExtra("dateDeath", grave.getDateDeath());
+				intent.putExtra("latitude", grave.getLatitude());
+				intent.putExtra("longitude", grave.getLongitude());
+				intent.putExtra("vitaPath", grave.getVitaPath());
+				intent.putExtra("tombstonePath", grave.getTombstonePath());
+				intent.putExtra("g_id", grave.getGraveID());
+				
 				startActivity(intent);
 			}
 		});
@@ -110,7 +132,8 @@ public class FoundByNameActivity extends ListActivity {
 
 	private ArrayList<String> parseJson(String dbReturned) {
 		ArrayList<String> liste = new ArrayList<String>();
-		numberList = new ArrayList<Long>();
+		//numberList = new ArrayList<Long>();
+		graveList = new ArrayList<Grave>();
 		Log.d("Anfang von Parsen", "ArrayList erstellt");
 		
 		
@@ -125,8 +148,18 @@ public class FoundByNameActivity extends ListActivity {
 				String birthdate = jason.get("datebirth").toString();
 				String personInfo = firstname + " " + lastname + " born: " + birthdate;
 				liste.add(personInfo);
-				g_id = jason.getLong("g_id");
-				numberList.add(g_id);
+				//g_id = jason.getLong("g_id");
+				//numberList.add(g_id);
+				Grave g = new Grave();
+				g.setFirstname(firstname);
+				g.setLastname(lastname);
+				g.setDateBirth(birthdate);
+				g.setDateDeath(jason.get("datedeath").toString());
+				g.setVitaPath(jason.getString("vita_path"));
+				g.setTombstonePath(jason.getString("tombstone_path"));
+				g.setLatitude(jason.getDouble("latitude"));
+				g.setLongitude(jason.getDouble("longitude"));
+				g.setGraveID(jason.getLong("g_id"));
 			}
 			
 		} catch (JSONException e) {

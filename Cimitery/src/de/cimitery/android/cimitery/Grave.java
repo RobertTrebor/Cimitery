@@ -8,8 +8,8 @@ public class Grave {
 	private String firstname;
 	private String lastname;
 	private String sex;
-	private long dateBirth;
-	private long dateDeath;
+	private String dateBirth;
+	private String dateDeath;
 	private long cemeteryID;
 	private String graveLoc;
 	private double latitude;
@@ -65,21 +65,6 @@ public class Grave {
 		this.sex = sex;
 	}
 
-	public long getDateBirth() {
-		return dateBirth;
-	}
-
-	public void setDateBirth(long dateBirth) {
-		this.dateBirth = dateBirth;
-	}
-
-	public long getDateDeath() {
-		return dateDeath;
-	}
-
-	public void setDateDeath(long dateDeath) {
-		this.dateDeath = dateDeath;
-	}
 
 	public long getCemeteryID() {
 		return cemeteryID;
@@ -130,6 +115,27 @@ public class Grave {
 	public void setTombstonePath(String tombstonePath) {
 		this.tombstonePath = tombstonePath;
 	}
+
+
+	public String getDateBirth() {
+		return dateBirth;
+	}
+
+
+	public void setDateBirth(String dateBirth) {
+		this.dateBirth = dateBirth;
+	}
+
+
+	public String getDateDeath() {
+		return dateDeath;
+	}
+
+
+	public void setDateDeath(String dateDeath) {
+		this.dateDeath = dateDeath;
+	}
+	
 	
 
 }
