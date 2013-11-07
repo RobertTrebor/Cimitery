@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,37 +32,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 public class FoundByNameActivity extends ListActivity {
 	
 	protected static StringBuilder jsonstr;
 	String firstname, lastname;
+	String[] array;
 	long c_id;
-	
-String message;
+	String message;
+	ArrayList<Grave> graveList;
 	
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			Bundle bundle = msg.getData();
 			String str = bundle.getString("mykey");
 			message = str;
-			Log.d("IM HANDLER", message);
 			String dbReturned = message;
-			System.out.println("***************DID WE GET THE: " + message);
-	//RL******************************************
 			
 			ArrayList<String> results = parseJson(dbReturned);
-			String[] array = new String[results.size()];
+			array = new String[results.size()];
 			for (int i = 0; i < results.size(); i++) {
 				array[i] = results.get(i);
 			}
+						
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(FoundByNameActivity.this, android.R.layout.simple_list_item_1, array);			
 			
-			//ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.activity_foundbyname, c, array, to);
-			
-			//setListAdapter(adapter);
-			
-			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			setListAdapter(adapter);
 		}
 	};
 
@@ -78,15 +78,38 @@ String message;
 		}
 		
 		sendRequestToDatabase();
+
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//Intent intent = new Intent(this, GraveDetailsActivity.class);
+								
+				Grave grave = new Grave();
+				grave = graveList.get(position);
+				
+				String gender = "";
+				if(grave.getSex().equals("f"))
+					gender = "female";
+				gender = "male";
 				
 				
+				Intent intent = new Intent(FoundByNameActivity.this, GraveDetailsActivity.class);
+				
+				intent.putExtra("firstname", grave.getFirstname());
+				intent.putExtra("lastname", grave.getLastname());
+				intent.putExtra("sex", gender);
+				intent.putExtra("dateBirth", grave.getDateBirth());
+				intent.putExtra("dateDeath", grave.getDateDeath());
+				intent.putExtra("latitude", grave.getLatitude());
+				intent.putExtra("longitude", grave.getLongitude());
+				intent.putExtra("vitaPath", grave.getVitaPath());
+				intent.putExtra("tombstonePath", grave.getTombstonePath());
+				intent.putExtra("g_id", grave.getGraveID());
+				
+				startActivity(intent);
 			}
 		});
 
@@ -94,7 +117,10 @@ String message;
 
 	private ArrayList<String> parseJson(String dbReturned) {
 		ArrayList<String> liste = new ArrayList<String>();
+		graveList = new ArrayList<Grave>();
 		Log.d("Anfang von Parsen", "ArrayList erstellt");
+		
+		
 		
 		try {
 			JSONArray jsonArray = new JSONArray(dbReturned);
@@ -106,13 +132,26 @@ String message;
 				String birthdate = jason.get("datebirth").toString();
 				String personInfo = firstname + " " + lastname + " born: " + birthdate;
 				liste.add(personInfo);
+				Grave g = new Grave();
+				g.setFirstname(firstname);
+				g.setLastname(lastname);
+				g.setDateBirth(birthdate);
+				g.setDateDeath(jason.get("datedeath").toString());
+				g.setVitaPath(jason.getString("vita_path"));
+				g.setTombstonePath(jason.getString("tombstone_path"));
+				g.setLatitude(jason.getDouble("latitude"));
+				g.setLongitude(jason.getDouble("longitude"));
+				g.setGraveID(jason.getLong("g_id"));
+				g.setSex(jason.getString("sex"));
+				graveList.add(g);
 			}
+			
+			Log.d("FoundByName graveList", "Size of graveList: " + graveList.size());
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return liste;
 	}
 
@@ -199,13 +238,12 @@ String message;
 	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
 	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
 			startActivity(intent3);
-		      break;
+		    break;
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
-			//startActivity(intent4);
-		      break;
+	    	Finisher.finishCimitery(this);
+		    break;
 
 	    default:
 	      break;

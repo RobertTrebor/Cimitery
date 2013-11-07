@@ -23,86 +23,52 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GraveDetailsActivity extends Activity{
+public class GraveDetailsActivity extends Activity implements OnClickListener{
 	
-	protected static StringBuilder jsonstr;
-	long g_id;
+	String vitaPath;
+	String tombstonePath;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gravedetails);
 		
-		if(getIntent() != null ){
-			g_id = getIntent().getLongExtra("id",1);
-		}
-		
 		TextView firstname = (TextView) findViewById(R.id.tf_firstname);
 		TextView lastname = (TextView) findViewById(R.id.tf_lastname);
-		TextView dateBirth = (TextView) findViewById(R.id.tfDateBirth);
-		TextView dateDeath = (TextView) findViewById(R.id.tfDateDeath);
-		TextView cemName = (TextView) findViewById(R.id.tf_cemeteryName);
-		TextView cemCity = (TextView) findViewById(R.id.tf_cemeteryCity);
-		Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
+		//TextView dateBirth = (TextView) findViewById(R.id.tfDateBirth);
+		//TextView dateDeath = (TextView) findViewById(R.id.tfDateDeath);
+		TextView latitude = (TextView) findViewById(R.id.tf_latitude);
+		TextView longitude = (TextView) findViewById(R.id.tf_longitude);
+
+		//Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
 		
-		pickUpData(g_id);
+		if(getIntent() != null ){
+			long g_id = getIntent().getLongExtra("g_id", 1); //noch zu implementieren
+			String sex = getIntent().getStringExtra("sex");  //noch zu implementieren
+			firstname.setText(getIntent().getStringExtra("firstname"));
+			String testfn = getIntent().getStringExtra("firstname");
+			Log.d("GraveDetails", testfn);
+			lastname.setText(getIntent().getStringExtra("lastname"));
+			//dateBirth.setText(getIntent().getStringExtra("dateBirth"));
+			//dateDeath.setText(getIntent().getStringExtra("dateDeath"));
+			longitude.setText("Longitude: " + getIntent().getDoubleExtra("longitude", 1));
+			latitude.setText("Latitude: " + getIntent().getDoubleExtra("latitude", 1));
+		
+			vitaPath = getIntent().getStringExtra("vitaPath");
+			tombstonePath = getIntent().getStringExtra("tombstonePath");
+		}
+		
+		//linkButton.setOnClickListener(this);
+
 	}
 	
 	
 	
-	private void pickUpData(long id) {
-		Runnable r = new Runnable() {
-
-			@Override
-			public void run() {
-
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(
-						"http://www.lengsfeld.de/cimitery/selectbyid.php");
-
-				try {
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-					nameValuePairs.add(new BasicNameValuePair("g_id", String.valueOf(g_id)));
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					
-					HttpResponse response = httpclient.execute(httppost);
-
-			        InputStream input = response.getEntity().getContent();
-			        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			        FoundByNameActivity.jsonstr = new StringBuilder();
-
-			        String line = null;
-					try {
-						
-			            while ((line = reader.readLine()) != null) {
-			            	jsonstr.append((line + "\n"));
-			            }
-			            
-			            //Json parsen mit parser-klasse
-			            
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        } finally {
- 		                input.close();
- 			        }
-					
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-		};
-
-		(new Thread(r)).start();
-		
-	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,13 +97,12 @@ public class GraveDetailsActivity extends Activity{
 	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
 	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
 			startActivity(intent3);
-		      break;
+		    break;
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
-			//startActivity(intent4);
-		      break;
+	    	Finisher.finishCimitery(this);
+		    break;
 
 	    default:
 	      break;
@@ -145,5 +110,15 @@ public class GraveDetailsActivity extends Activity{
 
 	    return true;
 	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intentWebView = new Intent(this, WebViewActivity.class);
+		intentWebView.putExtra("link", vitaPath);
+		startActivity(intentWebView);
+	}
+
+
+
 
 }

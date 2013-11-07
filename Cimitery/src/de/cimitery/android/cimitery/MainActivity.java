@@ -1,6 +1,8 @@
 package de.cimitery.android.cimitery;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,13 +84,12 @@ public class MainActivity extends Activity implements OnClickListener{
 	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
 	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
 			startActivity(intent3);
-		      break;
+			break;
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	//Intent intent4 = new Intent(this, SearchLocationActivity.class);
-			//startActivity(intent4);
-		      break;
+	    	Finisher.finishCimitery(this);
+	    	break;
 
 	    default:
 	      break;
@@ -96,5 +97,7 @@ public class MainActivity extends Activity implements OnClickListener{
 
 	    return true;
 	}
+	
+	
 
 }
