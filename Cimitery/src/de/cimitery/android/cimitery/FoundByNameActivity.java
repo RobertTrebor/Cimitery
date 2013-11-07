@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,7 +33,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 public class FoundByNameActivity extends ListActivity {
 	
@@ -40,8 +43,9 @@ public class FoundByNameActivity extends ListActivity {
 	String firstname, lastname;
 	String[] array;
 	long c_id;
-	
-String message;
+	long g_id;
+	String message;
+	ArrayList<Long> numberList;
 	
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -51,7 +55,13 @@ String message;
 			Log.d("IM HANDLER", message);
 			String dbReturned = message;
 			System.out.println("***************DID WE GET THE: " + message);
-	//RL******************************************
+
+			/*
+			dbReturned = "["+
+					"{\"firstname\":\"Anna\", \"lastname\":\"Seghers\", \"datebirth\":\"19.11.1900\"},"+ 
+					"{\"firstname\":\"Arnold\", \"lastname\":\"Zweig\", \"datebirth\":\"10.11.1887\"}"+ 
+					"]";
+			*/
 			
 			ArrayList<String> results = parseJson(dbReturned);
 			array = new String[results.size()];
@@ -59,7 +69,11 @@ String message;
 				array[i] = results.get(i);
 			}
 			
+			//String[] array2 = {"Anna Seghers 19.11.1900", "Arnold Zweig 10.11.1887", "Marlene Dietrich"};
 			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(FoundByNameActivity.this, android.R.layout.simple_list_item_1, array);			
+			
+			setListAdapter(adapter);
 		}
 	};
 
@@ -76,11 +90,7 @@ String message;
 		}
 		
 		sendRequestToDatabase();
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter(this, R.layout.activity_foundbyname, array);
-			
-		setListAdapter(adapter);
-			
+
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 		getListView().setOnItemClickListener(new OnItemClickListener() {
@@ -88,9 +98,11 @@ String message;
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//Intent intent = new Intent(this, GraveDetailsActivity.class);
+				g_id = numberList.get(position + 1);
 				
-				
+				Intent intent = new Intent(FoundByNameActivity.this, GraveDetailsActivity.class);
+				intent.putExtra("g_id", g_id);
+				startActivity(intent);
 			}
 		});
 
@@ -98,7 +110,10 @@ String message;
 
 	private ArrayList<String> parseJson(String dbReturned) {
 		ArrayList<String> liste = new ArrayList<String>();
+		numberList = new ArrayList<Long>();
 		Log.d("Anfang von Parsen", "ArrayList erstellt");
+		
+		
 		
 		try {
 			JSONArray jsonArray = new JSONArray(dbReturned);
@@ -110,13 +125,14 @@ String message;
 				String birthdate = jason.get("datebirth").toString();
 				String personInfo = firstname + " " + lastname + " born: " + birthdate;
 				liste.add(personInfo);
+				g_id = jason.getLong("g_id");
+				numberList.add(g_id);
 			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return liste;
 	}
 
