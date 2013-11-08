@@ -138,6 +138,7 @@ public class FoundByNameActivity extends ListActivity {
 				g.setDateBirth(birthdate);
 				g.setDateDeath(jason.get("datedeath").toString());
 				g.setVitaPath(jason.getString("vita_path"));
+				System.out.println("jason.getString(vita_path" + jason.getString("vita_path"));
 				g.setTombstonePath(jason.getString("tombstone_path"));
 				g.setLatitude(jason.getDouble("latitude"));
 				g.setLongitude(jason.getDouble("longitude"));
@@ -242,7 +243,8 @@ public class FoundByNameActivity extends ListActivity {
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	Finisher.finishCimitery(this);
+	    	Finisher f = new Finisher(this);
+	    	f.finishCimitery();
 		    break;
 
 	    default:

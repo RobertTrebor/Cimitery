@@ -1,41 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <TableRow>
 
-	<LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:orientation="vertical">
+        <TextView
+            android:id="@+id/tf_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
+        <TextView
+            android:id="@+id/tf_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+    </TableRow>
 
-					<TextView
-						android:layout_height="wrap_content"
-						android:text=""
-						android:layout_width="wrap_content"
-						android:id="@+id/tf_latitude"/>
+    <TableRow>
 
-					<TextView
-						android:layout_height="wrap_content"
-						android:text=""
-						android:layout_width="wrap_content"
-						android:id="@+id/tf_longitude"/>
+        <TextView
+            android:id="@+id/tf_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <TextView
+            android:id="@+id/tf_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </TableRow>
 
+    <TableRow>
 
-					<TextView
-						android:layout_height="wrap_content"
-						android:text=""
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:layout_width="wrap_content"
-						android:id="@+id/tf_firstname"/>
+        <Button
+            android:id="@+id/buttonVitaLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buttonLinkVita" />
+    </TableRow>
 
-					<TextView
-						android:layout_height="wrap_content"
-						android:text=""
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:layout_width="wrap_content"
-						android:id="@+id/tf_lastname"/>
-
-
-	</LinearLayout>
-
-
+</TableLayout>

@@ -83,7 +83,7 @@ public class NewGraveActivity extends Activity{
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				
-				grave.setCemeteryID(position);
+				grave.setCemeteryID(position+1);
 			}
 
 			@Override
@@ -275,6 +275,7 @@ public class NewGraveActivity extends Activity{
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
 		
+		//TO BE IMPLEMENTED LATER
 		//grave.setDateBirth(birthdate);
 		//grave.setDateDeath(jason.get("datedeath").toString());
 		//grave.setVitaPath(jason.getString("vita_path"));
@@ -330,7 +331,8 @@ public class NewGraveActivity extends Activity{
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	Finisher.finishCimitery(this);
+	    	Finisher f = new Finisher(this);
+	    	f.finishCimitery();
 		    break;
 
 	    default:

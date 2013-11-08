@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Cimitery</string>
+  <string name="welcome">Willkommen bei Cimitery. Wählen Sie aus, womit Sie fortfahren möchten:</string>
+  <string name="radio1_search">Suche nach Namen</string>
+  <string name="radio2_location">Suche nach GPS-Ortsbestimmung</string>
+  <string name="welcomeButton">Weiter</string>
+  <string name="labelSearchName">Geben Sie den Namen der Person ein, nach der Sie suchen möchten.</string>
+  <string name="labelSearchFirstname">Vortname:</string>
+  <string name="labelSearchLastname">Nachname:</string>
+  <string name="labelSelectCemetery">Wählen Sie einen Friedhof aus der Liste:</string>
+  <string name="searchButton">Namenssuche</string>
+  <string name="gpsLocateButton">Finde meinen Standort</string>
+  <string name="labelLocation">Das GPS hat Sie an folgender Position gefunden:</string>
+  <string name="labelInputFirstname">Vorname:</string>
+  <string name="labelInputLastname">Nachname:</string>
+  <string name="labelInputSex">Geschlecht:</string>
+  <string name="buttonNewGrave">Neue Grabstelle speichern</string>
+  <string name="buttonSelectPhoto">Photo-Auswahl</string>
+  <string name="radio_female">weiblich</string>
+  <string name="radio_male">männlich</string>
+  <string name="buttonLinkVita">Lebenslauf öffnen</string>
+  <string-array name="cemeteryNames">
+    <item>Dorotheenstädtischer Friedhof</item>
+    <item>Friedhof Stubenrauchstrasse</item>
+  </string-array>
+  <!-- ActionBar Menu -->
+  <string name="action_newgrave">Neue Grabstelle</string>
+  <string name="action_searchbyname">Namenssuche</string>
+  <string name="action_searchbylocation">Ortssuche</string>
+  <string name="action_finish">Beenden</string>
+  <string name="action_settings">Einstellungen</string>
+</resources>

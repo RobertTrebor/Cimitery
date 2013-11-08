@@ -45,7 +45,7 @@ public class GraveDetailsActivity extends Activity implements OnClickListener{
 		TextView latitude = (TextView) findViewById(R.id.tf_latitude);
 		TextView longitude = (TextView) findViewById(R.id.tf_longitude);
 
-		//Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
+		Button linkButton = (Button) findViewById(R.id.buttonVitaLink);
 		
 		if(getIntent() != null ){
 			long g_id = getIntent().getLongExtra("g_id", 1); //noch zu implementieren
@@ -63,7 +63,7 @@ public class GraveDetailsActivity extends Activity implements OnClickListener{
 			tombstonePath = getIntent().getStringExtra("tombstonePath");
 		}
 		
-		//linkButton.setOnClickListener(this);
+		linkButton.setOnClickListener(this);
 
 	}
 	
@@ -101,7 +101,8 @@ public class GraveDetailsActivity extends Activity implements OnClickListener{
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	Finisher.finishCimitery(this);
+	    	Finisher f = new Finisher(this);
+	    	f.finishCimitery();
 		    break;
 
 	    default:
@@ -114,11 +115,8 @@ public class GraveDetailsActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		Intent intentWebView = new Intent(this, WebViewActivity.class);
-		intentWebView.putExtra("link", vitaPath);
+		intentWebView.putExtra("vitaPath", vitaPath);
 		startActivity(intentWebView);
 	}
-
-
-
 
 }

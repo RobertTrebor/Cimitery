@@ -13,6 +13,11 @@
         android:text="@string/welcome"
         android:layout_gravity="center" />
 
+    <ImageView
+        android:layout_width="285dp"
+        android:layout_height="220dp"
+        android:src="@drawable/cemetery" />
+	
     <RadioGroup
         android:id="@+id/radioGroupWelcome"
         android:layout_gravity="center"
