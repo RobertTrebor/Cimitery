@@ -3,6 +3,7 @@ package de.cimitery.android.cimitery;
 public class ExifData {
 	String LATITUDE, LATITUDE_REF, LONGITUDE, LONGITUDE_REF;
 	float latitude, longitude;
+	double lat, lng;
 	
 	public ExifData(String LATITUDE, String LATITUDE_REF, String LONGITUDE, String LONGITUDE_REF) {
 		this.LATITUDE=LATITUDE;
@@ -63,6 +64,14 @@ public class ExifData {
 
 	public float getLongitude() {
 		return longitude;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public double getLng() {
+		return lng;
 	}
 	
 	

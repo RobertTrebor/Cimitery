@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class NewGraveActivity extends Activity{
 
 	EditText firstname;
 	EditText lastname;
+	RadioGroup radioGroupSex;
 	RadioButton radioButton;
 	
 	Grave grave = new Grave();
@@ -68,6 +70,7 @@ public class NewGraveActivity extends Activity{
 		
 		firstname = (EditText) findViewById(R.id.editInFirstname);
 		lastname = (EditText) findViewById(R.id.editInLastname);
+		radioGroupSex = (RadioGroup) findViewById(R.id.radioGroupSex);
 		
 		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
@@ -100,7 +103,7 @@ public class NewGraveActivity extends Activity{
 					startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 				}
 
-			});
+		});
 		
 		
 		Button button = (Button) findViewById(R.id.buttonNewGrave);
@@ -120,7 +123,7 @@ public class NewGraveActivity extends Activity{
 						Log.d("NEWGRAVEACT", "Am Anfang von run");
 						
 						HttpClient httpclient = new DefaultHttpClient();
-					    HttpPost httppost = new HttpPost("http://www.lengsfeld.de/cimitery/insert.php");
+					    HttpPost httppost = new HttpPost("http://www.lengsfeld.de/cimitery/insertreal.php");
 
 					    try {
 					        // Add your data
@@ -128,20 +131,38 @@ public class NewGraveActivity extends Activity{
 					        nameValuePairs.add(new BasicNameValuePair("firstname", grave.getFirstname()));
 					        nameValuePairs.add(new BasicNameValuePair("lastname", grave.getLastname()));
 					        nameValuePairs.add(new BasicNameValuePair("sex", grave.getSex()));
+					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
 					        nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(grave.getCemeteryID())));
-					        nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(grave.getLatitude())));
-					        nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(grave.getLongitude())));
+					        System.out.println("grave.getCemeteryID()" + grave.getCemeteryID());
+					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(exif.getLatitude())));
+					        System.out.println("String.valueOf(exif.getLatitude()" + String.valueOf(exif.getLatitude()));
+					        System.out.println(grave.getLatitude());
+					        System.out.println(exif.getLatitude());
+					        nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(exif.getLongitude())));
+					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
 					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", grave.getTombstonePath()));
+					        /*nameValuePairs.add(new BasicNameValuePair("firstname", "robert"));
+					        nameValuePairs.add(new BasicNameValuePair("lastname", "robert"));
+					        nameValuePairs.add(new BasicNameValuePair("sex", "m"));
+					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("c_id", "1"));
+					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("latitude", "1"));
+					        nameValuePairs.add(new BasicNameValuePair("longitude", "1"));
+					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
+					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", "robert"));*/
 					        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					        Log.d("NEWGRAVEACT", "httppost.setEntity");
+					        Log.d("NEWGRAVEACT", httppost.toString());
 
 					        // Execute HTTP Post Request
 					        
 					        HttpResponse response = httpclient.execute(httppost);
-					        Log.d("NEWGRAVEACT", response.toString());
-					        
 					        
 					        Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
+					        System.out.println(nameValuePairs.toString());
 					    } catch (ClientProtocolException e) {
 					    	e.printStackTrace();
 					    } catch (IOException e) {
@@ -224,21 +245,11 @@ public class NewGraveActivity extends Activity{
 							LONGITUDE_REF);
 
 					exif.convertFormat();
-					float latitude = exif.getLatitude();
-					System.out.println(latitude);
-					double lat = (double) latitude;
-					
-					System.out.println(lat);
-					
-					
-					
-					float longitude = exif.getLongitude();
-					System.out.println(longitude);
-					double lng = (double) longitude;
-					System.out.println(lng);
-
-					Log.d("CONVERTED", String.valueOf(latitude));
-					Log.d("CONVERTED", String.valueOf(longitude));
+					grave.setLatitude(exif.getLatitude());
+					grave.setLongitude(exif.getLongitude());
+	
+					System.out.println("EXIF STUFF" + exif.getLatitude());
+					System.out.println("EXIF STUFF" + grave.getLatitude());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -263,16 +274,28 @@ public class NewGraveActivity extends Activity{
 	protected void setAllGraveData() {
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
-		grave.setSex(radioButtonToChar(radioButton.getId()));
+		
+		//grave.setDateBirth(birthdate);
+		//grave.setDateDeath(jason.get("datedeath").toString());
+		//grave.setVitaPath(jason.getString("vita_path"));
+		//grave.setTombstonePath(jason.getString("tombstone_path"));
+		grave.setLatitude(exif.getLat());
+		grave.setLongitude(exif.getLng());
+		
+        radioButton = (RadioButton) findViewById(radioGroupSex.getCheckedRadioButtonId());
+		
+		if(radioButton.getId() == R.id.radioMale ) {
+			grave.setSex("m");
+			System.out.println(grave.getSex());
+		} 
+		
+		if(radioButton.getId() == R.id.radioFemale) {
+			grave.setSex("f");
+			System.out.println(grave.getSex());
+		}
 		
 	}
 	
-	protected String radioButtonToChar(int id) {
-		String sex = "f";
-		if(id == R.id.radioMale)
-			sex = "m";
-		return sex;
-	}
 	
 	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
 	
