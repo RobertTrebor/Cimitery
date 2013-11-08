@@ -307,7 +307,8 @@ public class NewGraveActivity extends Activity{
 		      
 	    case R.id.action_finish:
 	    	Log.d("onOptionsItemSelected", "finish");
-	    	Finisher.finishCimitery(this);
+	    	Finisher f = new Finisher(this);
+	    	f.finishCimitery();
 		    break;
 
 	    default:

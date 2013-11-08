@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-	<LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:orientation="vertical">
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:id="@+id/tableLayout1"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent" >
+		
+	        <TableRow >
 
 
 					<TextView
@@ -18,8 +19,11 @@
 						android:text=""
 						android:layout_width="wrap_content"
 						android:id="@+id/tf_longitude"/>
-
-
+					
+			</TableRow>
+			
+	        
+	        <TableRow >
 
 					<TextView
 						android:layout_height="wrap_content"
@@ -34,8 +38,20 @@
 						android:textAppearance="?android:attr/textAppearanceLarge"
 						android:layout_width="wrap_content"
 						android:id="@+id/tf_lastname"/>
+					
+			</TableRow>
+			
+	        <TableRow >
+	            
+	            <Button
+	                android:id="@+id/buttonVitaLink"
+	                android:layout_width="wrap_content"
+	       			android:layout_height="wrap_content"
+	        		android:text="@string/buttonLinkVita" />
+	            
+	        </TableRow>
+	        
 
-
-	</LinearLayout>
+	</TableLayout>
 
 
