@@ -3,6 +3,7 @@ package de.cimitery.android.cimitery;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class NewGraveActivity extends Activity{
 	RadioGroup radioGroupSex;
 	RadioButton radioButton;
 	DatePicker dateBirth;
+	DatePicker dateDeath;
 	
 	private int yearbirth;
 	private int monthbirth;
@@ -81,6 +83,8 @@ public class NewGraveActivity extends Activity{
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		radioGroupSex = (RadioGroup) findViewById(R.id.radioGroupSex);
 		dateBirth = (DatePicker) findViewById(R.id.dpBirth);
+		
+		
 		
 		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
@@ -141,10 +145,11 @@ public class NewGraveActivity extends Activity{
 					        nameValuePairs.add(new BasicNameValuePair("firstname", grave.getFirstname()));
 					        nameValuePairs.add(new BasicNameValuePair("lastname", grave.getLastname()));
 					        nameValuePairs.add(new BasicNameValuePair("sex", grave.getSex()));
-					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("datebirth", grave.getDateBirth()));
 					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
 					        nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(grave.getCemeteryID())));
 					        System.out.println("grave.getCemeteryID()" + grave.getCemeteryID());
+					        System.out.println("Date Birth:" + grave.getDateBirth());
 					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
 					        nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(exif.getLatitude())));
 					        System.out.println("String.valueOf(exif.getLatitude()" + String.valueOf(exif.getLatitude()));
@@ -274,9 +279,13 @@ public class NewGraveActivity extends Activity{
 	protected void setAllGraveData() {
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
+				
+		grave.setDateBirth((new Date(yearbirth, monthbirth+1, daybirth)).toString());
+		
+		System.out.println("setAllGraveData(): " + (new Date(yearbirth, monthbirth+1, daybirth)).toString());
+		
 		
 		//TO BE IMPLEMENTED LATER
-		//grave.setDateBirth(birthdate);
 		//grave.setDateDeath(jason.get("datedeath").toString());
 		//grave.setVitaPath(jason.getString("vita_path"));
 		//grave.setTombstonePath(jason.getString("tombstone_path"));
@@ -303,6 +312,7 @@ public class NewGraveActivity extends Activity{
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DATE_DIALOG_ID:
+			Log.d("new grave ONCREATE DIALOG", "datepickerdialog mit listener");
 		   // set date picker as current date
 		   return new DatePickerDialog(this, datePickerListener, 
                          yearbirth, monthbirth,daybirth);
@@ -319,6 +329,9 @@ public class NewGraveActivity extends Activity{
 			yearbirth = selectedYear;
 			monthbirth = selectedMonth;
 			daybirth = selectedDay;
+			Log.d("Year of Birth", String.valueOf(selectedYear));
+			Log.d("Month of Birth", String.valueOf(selectedMonth));
+			Log.d("Day of Birth", String.valueOf(selectedDay));
   
 			// set selected date into datepicker also
 			dateBirth.init(yearbirth, monthbirth, daybirth, null);

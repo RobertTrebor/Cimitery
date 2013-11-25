@@ -88,16 +88,16 @@ public final class R {
         public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int action_finish=0x7f04001a;
+        public static final int action_finish=0x7f04001b;
         /**  ActionBar Menu 
  ActionBar Menu 
          */
-        public static final int action_newgrave=0x7f040017;
-        public static final int action_searchbylocation=0x7f040019;
-        public static final int action_searchbyname=0x7f040018;
-        public static final int action_settings=0x7f04001b;
+        public static final int action_newgrave=0x7f040018;
+        public static final int action_searchbylocation=0x7f04001a;
+        public static final int action_searchbyname=0x7f040019;
+        public static final int action_settings=0x7f04001c;
         public static final int app_name=0x7f040002;
-        public static final int buttonLinkVita=0x7f040016;
+        public static final int buttonLinkVita=0x7f040017;
         public static final int buttonNewGrave=0x7f040011;
         public static final int buttonSelectPhoto=0x7f040012;
         public static final int database=0x7f040000;
@@ -111,6 +111,7 @@ public final class R {
         public static final int labelSearchName=0x7f040007;
         public static final int labelSelectCemetery=0x7f04000a;
         public static final int labelSelectDateBirth=0x7f040015;
+        public static final int labelSelectDateDeath=0x7f040016;
         public static final int radio1_search=0x7f040004;
         public static final int radio2_location=0x7f040005;
         public static final int radio_female=0x7f040013;

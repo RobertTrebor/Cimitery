@@ -23,7 +23,8 @@
     <string name="buttonSelectPhoto">Select a photo</string>
     <string name="radio_female">Female</string>
     <string name="radio_male">Male</string>
-    <string name="labelSelectDateBirth">Date of Birth</string>
+    <string name="labelSelectDateBirth">Date of Birth:</string>
+    <string name="labelSelectDateDeath">Date of Death:</string>
     
     <string name="buttonLinkVita">Open Vita</string>
     

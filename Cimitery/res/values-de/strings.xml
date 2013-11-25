@@ -11,10 +11,17 @@
   <string name="labelSelectCemetery">Wählen Sie einen Friedhof aus der Liste:</string>
   <string name="searchButton">Namenssuche</string>
   <string name="gpsLocateButton">Finde meinen Standort</string>
+  
   <string name="labelLocation">Das GPS hat Sie an folgender Position gefunden:</string>
   <string name="labelInputFirstname">Vorname:</string>
   <string name="labelInputLastname">Nachname:</string>
   <string name="labelInputSex">Geschlecht:</string>
+  <string name="labelSelectDateBirth">Geburtsdatum:</string>
+  <string name="labelSelectDateDeath">Sterbedatum:</string>
+  
+  
+  
+  
   <string name="buttonNewGrave">Neue Grabstelle speichern</string>
   <string name="buttonSelectPhoto">Photo-Auswahl</string>
   <string name="radio_female">weiblich</string>
