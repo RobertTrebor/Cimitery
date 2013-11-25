@@ -16,6 +16,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -34,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -47,6 +50,12 @@ public class NewGraveActivity extends Activity{
 	EditText lastname;
 	RadioGroup radioGroupSex;
 	RadioButton radioButton;
+	DatePicker dateBirth;
+	
+	private int yearbirth;
+	private int monthbirth;
+	private int daybirth;
+	static final int DATE_DIALOG_ID = 999;
 	
 	Grave grave = new Grave();
 	
@@ -71,6 +80,7 @@ public class NewGraveActivity extends Activity{
 		firstname = (EditText) findViewById(R.id.editInFirstname);
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		radioGroupSex = (RadioGroup) findViewById(R.id.radioGroupSex);
+		dateBirth = (DatePicker) findViewById(R.id.dpBirth);
 		
 		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
@@ -143,17 +153,7 @@ public class NewGraveActivity extends Activity{
 					        nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(exif.getLongitude())));
 					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
 					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", grave.getTombstonePath()));
-					        /*nameValuePairs.add(new BasicNameValuePair("firstname", "robert"));
-					        nameValuePairs.add(new BasicNameValuePair("lastname", "robert"));
-					        nameValuePairs.add(new BasicNameValuePair("sex", "m"));
-					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("c_id", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("latitude", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("longitude", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
-					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", "robert"));*/
+					        
 					        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					        Log.d("NEWGRAVEACT", httppost.toString());
 
@@ -296,6 +296,35 @@ public class NewGraveActivity extends Activity{
 		}
 		
 	}
+	
+	/////////////////////////////// --- DATEPICKER--- //////////////////////////////////////
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DATE_DIALOG_ID:
+		   // set date picker as current date
+		   return new DatePickerDialog(this, datePickerListener, 
+                         yearbirth, monthbirth,daybirth);
+		}
+		return null;
+	}
+ 
+	private DatePickerDialog.OnDateSetListener datePickerListener 
+                = new DatePickerDialog.OnDateSetListener() {
+ 
+		// when dialog box is closed, below method will be called.
+		public void onDateSet(DatePicker view, int selectedYear,
+				int selectedMonth, int selectedDay) {
+			yearbirth = selectedYear;
+			monthbirth = selectedMonth;
+			daybirth = selectedDay;
+  
+			// set selected date into datepicker also
+			dateBirth.init(yearbirth, monthbirth, daybirth, null);
+ 
+		}
+	};
 	
 	
 	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
