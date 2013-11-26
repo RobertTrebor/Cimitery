@@ -67,7 +67,17 @@ public class GraveDetailsActivity extends Activity implements OnClickListener{
 
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.details = this;
+	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.details = null;
+	}
 	
 
 	@Override

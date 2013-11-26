@@ -33,6 +33,20 @@ public class MainActivity extends Activity implements OnClickListener{
 		button.setOnClickListener(this);
 
 	}
+	
+	
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.main = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.main = null;
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

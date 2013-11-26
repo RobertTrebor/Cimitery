@@ -149,6 +149,19 @@ public class SearchLocationActivity extends Activity{
 		
 	}
 	
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.searchlocation = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.searchlocation = null;
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

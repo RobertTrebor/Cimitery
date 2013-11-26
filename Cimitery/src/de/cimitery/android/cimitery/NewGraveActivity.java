@@ -297,6 +297,18 @@ public class NewGraveActivity extends Activity{
 		
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.newgrave = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.newgrave = null;
+	}
+	
 	
 	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
 	

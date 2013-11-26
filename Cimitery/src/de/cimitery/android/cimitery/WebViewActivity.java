@@ -47,6 +47,19 @@ public class WebViewActivity extends Activity {
 	*/
 	
 	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.webview = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.webview = null;
+	}
+	
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);

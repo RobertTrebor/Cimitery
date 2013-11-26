@@ -212,6 +212,19 @@ public class FoundByNameActivity extends ListActivity {
 		(new Thread(r)).start();
 	}
 	
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.foundbyname = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.foundbyname = null;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

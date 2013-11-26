@@ -80,6 +80,19 @@ public class SearchNameActivity extends Activity implements OnClickListener{
 		
 	}
 	
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Finisher.searchname = this;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Finisher.searchname = null;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
