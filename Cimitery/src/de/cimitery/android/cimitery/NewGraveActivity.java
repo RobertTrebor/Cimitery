@@ -3,8 +3,9 @@ package de.cimitery.android.cimitery;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -17,8 +18,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -44,6 +43,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewGraveActivity extends Activity{
 
@@ -53,11 +53,6 @@ public class NewGraveActivity extends Activity{
 	RadioButton radioButton;
 	DatePicker dateBirth;
 	DatePicker dateDeath;
-	
-	private int yearbirth;
-	private int monthbirth;
-	private int daybirth;
-	static final int DATE_DIALOG_ID = 999;
 	
 	Grave grave = new Grave();
 	
@@ -83,8 +78,7 @@ public class NewGraveActivity extends Activity{
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		radioGroupSex = (RadioGroup) findViewById(R.id.radioGroupSex);
 		dateBirth = (DatePicker) findViewById(R.id.dpBirth);
-		
-		
+		dateDeath= (DatePicker) findViewById(R.id.dpDeath);
 		
 		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
@@ -125,7 +119,7 @@ public class NewGraveActivity extends Activity{
 			///////////////////////// --- SAVE NEW GRAVE LISTENER --- ///////////////////////////
 			@Override
 			public void onClick(View v) {
-				
+								
 				//Daten für Grab eintragen:
 				setAllGraveData();
 				
@@ -146,7 +140,7 @@ public class NewGraveActivity extends Activity{
 					        nameValuePairs.add(new BasicNameValuePair("lastname", grave.getLastname()));
 					        nameValuePairs.add(new BasicNameValuePair("sex", grave.getSex()));
 					        nameValuePairs.add(new BasicNameValuePair("datebirth", grave.getDateBirth()));
-					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
+					        nameValuePairs.add(new BasicNameValuePair("datedeath", grave.getDateDeath()));
 					        nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(grave.getCemeteryID())));
 					        System.out.println("grave.getCemeteryID()" + grave.getCemeteryID());
 					        System.out.println("Date Birth:" + grave.getDateBirth());
@@ -279,16 +273,39 @@ public class NewGraveActivity extends Activity{
 	protected void setAllGraveData() {
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
-				
-		grave.setDateBirth((new Date(yearbirth, monthbirth+1, daybirth)).toString());
 		
-		System.out.println("setAllGraveData(): " + (new Date(yearbirth, monthbirth+1, daybirth)).toString());
+		/////////////////////////////// --- DATEPICKER--- //////////////////////////////////////
+		Calendar calendarBirth = Calendar.getInstance();
+		Calendar calendarDeath = Calendar.getInstance();
 		
+		String formatPattern = "yyyy-MM-dd"; 
+	    SimpleDateFormat simpleFormat = new SimpleDateFormat();
+	    simpleFormat.applyPattern(formatPattern);
+	    
+	    calendarBirth.set(Calendar.YEAR, dateBirth.getYear());
+		calendarBirth.set(Calendar.MONTH, dateBirth.getMonth());
+	    calendarBirth.set(Calendar.DAY_OF_MONTH, dateBirth.getDayOfMonth());
+	    long millisBirth = calendarBirth.getTimeInMillis();
+	    
+	    calendarDeath.set(Calendar.YEAR, dateDeath.getYear());
+		calendarDeath.set(Calendar.MONTH, dateDeath.getMonth());
+	    calendarDeath.set(Calendar.DAY_OF_MONTH, dateDeath.getDayOfMonth());
+
+	    long millisDeath = calendarDeath.getTimeInMillis();
+	    
+	    if(millisBirth > millisDeath) {
+	    	Toast.makeText(this, "Geburtsdatum später als Sterbedatum", Toast.LENGTH_SHORT).show();
+	    }
+	    
+	    grave.setDateBirth(simpleFormat.format(calendarBirth.getTime()));
+	    grave.setDateDeath(simpleFormat.format(calendarDeath.getTime()));
+	    Log.d("Date Birth", grave.getDateBirth());
+	    Log.d("Date Death", grave.getDateDeath());
 		
 		//TO BE IMPLEMENTED LATER
-		//grave.setDateDeath(jason.get("datedeath").toString());
 		//grave.setVitaPath(jason.getString("vita_path"));
 		//grave.setTombstonePath(jason.getString("tombstone_path"));
+	    
 		grave.setLatitude(exif.getLat());
 		grave.setLongitude(exif.getLng());
 		
@@ -306,38 +323,6 @@ public class NewGraveActivity extends Activity{
 		
 	}
 	
-	/////////////////////////////// --- DATEPICKER--- //////////////////////////////////////
-	
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case DATE_DIALOG_ID:
-			Log.d("new grave ONCREATE DIALOG", "datepickerdialog mit listener");
-		   // set date picker as current date
-		   return new DatePickerDialog(this, datePickerListener, 
-                         yearbirth, monthbirth,daybirth);
-		}
-		return null;
-	}
- 
-	private DatePickerDialog.OnDateSetListener datePickerListener 
-                = new DatePickerDialog.OnDateSetListener() {
- 
-		// when dialog box is closed, below method will be called.
-		public void onDateSet(DatePicker view, int selectedYear,
-				int selectedMonth, int selectedDay) {
-			yearbirth = selectedYear;
-			monthbirth = selectedMonth;
-			daybirth = selectedDay;
-			Log.d("Year of Birth", String.valueOf(selectedYear));
-			Log.d("Month of Birth", String.valueOf(selectedMonth));
-			Log.d("Day of Birth", String.valueOf(selectedDay));
-  
-			// set selected date into datepicker also
-			dateBirth.init(yearbirth, monthbirth, daybirth, null);
- 
-		}
-	};
 	
 	
 	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
