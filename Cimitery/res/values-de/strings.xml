@@ -19,6 +19,8 @@
   <string name="buttonSelectPhoto">Photo-Auswahl</string>
   <string name="radio_female">weiblich</string>
   <string name="radio_male">männlich</string>
+  <string name="labelSelectDateBirth">Geburtsdatum:</string>
+  <string name="labelSelectDateDeath">Sterbedatum:</string>    
   <string name="buttonLinkVita">Lebenslauf öffnen</string>
   <string-array name="cemeteryNames">
     <item>Dorotheenstädtischer Friedhof</item>

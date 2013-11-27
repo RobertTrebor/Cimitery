@@ -3,7 +3,9 @@ package de.cimitery.android.cimitery;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -34,22 +36,26 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class NewGraveActivity extends Activity{
+public class NewGraveActivity extends Activity {
 
 	EditText firstname;
 	EditText lastname;
 	RadioGroup radioGroupSex;
 	RadioButton radioButton;
-	
+	DatePicker dateBirth;
+	DatePicker dateDeath;
+
 	Grave grave = new Grave();
-	
+
 	ImageView imageViewTombstone;
 	Bitmap yourSelectedImage;
 	private static final int SELECT_PHOTO = 100;
@@ -62,130 +68,168 @@ public class NewGraveActivity extends Activity{
 	TextView tv_TombstonePath;
 	ExifData exif;
 
-	/////////////////////////////////// --- ONCREATE --- ////////////////////////////////////////////
+	// ///////////////////////////////// --- ONCREATE ---
+	// ////////////////////////////////////////////
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_newgrave);
-		
+
 		firstname = (EditText) findViewById(R.id.editInFirstname);
 		lastname = (EditText) findViewById(R.id.editInLastname);
 		radioGroupSex = (RadioGroup) findViewById(R.id.radioGroupSex);
-		
+		dateBirth = (DatePicker) findViewById(R.id.dpBirth);
+		dateDeath = (DatePicker) findViewById(R.id.dpDeath);
+
 		Spinner spinnerCem = (Spinner) findViewById(R.id.spinnerNewGrave);
-		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.cemeteryNames, 
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(this, R.array.cemeteryNames,
+						android.R.layout.simple_spinner_item);
 		spinnerCem.setAdapter(spinnerAdapter);
 		spinnerCem.setOnItemSelectedListener(new OnItemSelectedListener() {
-			
-			//////////////////////// ---SPINNER LISTENER --- ////////////////////////////////////////
+
+			// ////////////////////// ---SPINNER LISTENER ---
+			// ////////////////////////////////////////
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				
-				grave.setCemeteryID(position+1);
+
+				grave.setCemeteryID(position + 1);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-								
+
 			}
 		});
-		
-		
+
 		Button buttonSelectPhoto = (Button) findViewById(R.id.buttonSelectPhoto);
 		buttonSelectPhoto.setOnClickListener(new OnClickListener() {
-				//////////////////////// --- SELECTPHOTO LISTENER --- /////////////////////////////	
-				@Override
-				public void onClick(View v) {
-					Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-					photoPickerIntent.setType("image/*");
-					startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-				}
-
-		});
-		
-		
-		Button button = (Button) findViewById(R.id.buttonNewGrave);
-		button.setOnClickListener(new OnClickListener() {
-			///////////////////////// --- SAVE NEW GRAVE LISTENER --- ///////////////////////////
+			// ////////////////////// --- SELECTPHOTO LISTENER ---
+			// /////////////////////////////
 			@Override
 			public void onClick(View v) {
-				
-				//Daten für Grab eintragen:
+				Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+				photoPickerIntent.setType("image/*");
+				startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+			}
+
+		});
+
+		Button button = (Button) findViewById(R.id.buttonNewGrave);
+		button.setOnClickListener(new OnClickListener() {
+			// /////////////////////// --- SAVE NEW GRAVE LISTENER ---
+			// ///////////////////////////
+			@Override
+			public void onClick(View v) {
+
+				// Daten für Grab eintragen:
 				setAllGraveData();
-				
+
 				Runnable r = new Runnable() {
-					
-					////////////////////// --- RUN FÜR DB-THREAD --- ////////////////////////////
+
+					// //////////////////// --- RUN FÜR DB-THREAD ---
+					// ////////////////////////////
 					@Override
 					public void run() {
 						Log.d("NEWGRAVEACT", "Am Anfang von run");
-						
+
 						HttpClient httpclient = new DefaultHttpClient();
-					    HttpPost httppost = new HttpPost("http://www.lengsfeld.de/cimitery/insertreal.php");
+						HttpPost httppost = new HttpPost(
+								"http://www.lengsfeld.de/cimitery/insertreal.php");
 
-					    try {
-					        // Add your data
-					        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-					        nameValuePairs.add(new BasicNameValuePair("firstname", grave.getFirstname()));
-					        nameValuePairs.add(new BasicNameValuePair("lastname", grave.getLastname()));
-					        nameValuePairs.add(new BasicNameValuePair("sex", grave.getSex()));
-					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("c_id", String.valueOf(grave.getCemeteryID())));
-					        System.out.println("grave.getCemeteryID()" + grave.getCemeteryID());
-					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(exif.getLatitude())));
-					        System.out.println("String.valueOf(exif.getLatitude()" + String.valueOf(exif.getLatitude()));
-					        System.out.println(grave.getLatitude());
-					        System.out.println(exif.getLatitude());
-					        nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(exif.getLongitude())));
-					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
-					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", grave.getTombstonePath()));
-					        /*nameValuePairs.add(new BasicNameValuePair("firstname", "robert"));
-					        nameValuePairs.add(new BasicNameValuePair("lastname", "robert"));
-					        nameValuePairs.add(new BasicNameValuePair("sex", "m"));
-					        nameValuePairs.add(new BasicNameValuePair("datebirth", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("datedeath", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("c_id", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("grave_loc", "null"));
-					        nameValuePairs.add(new BasicNameValuePair("latitude", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("longitude", "1"));
-					        nameValuePairs.add(new BasicNameValuePair("vita_path", "http://www.lengsfeld.de/cimitery/vitae/"));
-					        nameValuePairs.add(new BasicNameValuePair("tombstone_path", "robert"));*/
-					        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					        Log.d("NEWGRAVEACT", httppost.toString());
+						try {
+							// Add your data
+							List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+							nameValuePairs.add(new BasicNameValuePair(
+									"firstname", grave.getFirstname()));
+							nameValuePairs.add(new BasicNameValuePair(
+									"lastname", grave.getLastname()));
+							nameValuePairs.add(new BasicNameValuePair("sex",
+									grave.getSex()));
+							nameValuePairs.add(new BasicNameValuePair(
+									"datebirth", grave.getDateBirth()));
+							nameValuePairs.add(new BasicNameValuePair(
+									"datedeath", grave.getDateDeath()));
+							nameValuePairs.add(new BasicNameValuePair("c_id",
+									String.valueOf(grave.getCemeteryID())));
+							System.out.println("grave.getCemeteryID()"
+									+ grave.getCemeteryID());
+							nameValuePairs.add(new BasicNameValuePair(
+									"grave_loc", "null"));
+							nameValuePairs.add(new BasicNameValuePair(
+									"latitude", String.valueOf(exif
+											.getLatitude())));
+							System.out.println("String.valueOf(exif.getLatitude()"
+									+ String.valueOf(exif.getLatitude()));
+							System.out.println(grave.getLatitude());
+							System.out.println(exif.getLatitude());
+							nameValuePairs.add(new BasicNameValuePair(
+									"longitude", String.valueOf(exif
+											.getLongitude())));
+							nameValuePairs.add(new BasicNameValuePair(
+									"vita_path",
+									"http://www.lengsfeld.de/cimitery/vitae/"));
+							nameValuePairs.add(new BasicNameValuePair(
+									"tombstone_path", grave.getTombstonePath()));
+							/*
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("firstname", "robert"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("lastname", "robert"));
+							 * nameValuePairs.add(new BasicNameValuePair("sex",
+							 * "m")); nameValuePairs.add(new
+							 * BasicNameValuePair("datebirth", "null"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("datedeath", "null"));
+							 * nameValuePairs.add(new BasicNameValuePair("c_id",
+							 * "1")); nameValuePairs.add(new
+							 * BasicNameValuePair("grave_loc", "null"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("latitude", "1"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("longitude", "1"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("vita_path",
+							 * "http://www.lengsfeld.de/cimitery/vitae/"));
+							 * nameValuePairs.add(new
+							 * BasicNameValuePair("tombstone_path", "robert"));
+							 */
+							httppost.setEntity(new UrlEncodedFormEntity(
+									nameValuePairs));
+							Log.d("NEWGRAVEACT", httppost.toString());
 
-					        // Execute HTTP Post Request
-					        
-					        HttpResponse response = httpclient.execute(httppost);
-					        
-					        Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
-					        System.out.println(nameValuePairs.toString());
-					    } catch (ClientProtocolException e) {
-					    	e.printStackTrace();
-					    } catch (IOException e) {
-					    	e.printStackTrace();
-					    }
-						
+							// Execute HTTP Post Request
+
+							HttpResponse response = httpclient
+									.execute(httppost);
+
+							Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
+							System.out.println(nameValuePairs.toString());
+						} catch (ClientProtocolException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
 					}
 				};
-				
+
 				(new Thread(r)).start();
-				
+
 			}
 		});
 	}
-	
-	//////////////////////////////// --- ONACTIVITYRESULT --- /////////////////////////////////////
+
+	// ////////////////////////////// --- ONACTIVITYRESULT ---
+	// /////////////////////////////////////
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
 		Log.d("requestCode: " + requestCode, "resultCode: " + resultCode);
-	
+
 		Log.d("DEBUG", "BEFORE IF");
 		Log.d("resultCode", ((Integer) resultCode).toString());
 		if (resultCode == Activity.RESULT_OK) {
@@ -208,11 +252,12 @@ public class NewGraveActivity extends Activity{
 				Log.d("DEBUG", "imagePath.getBytes();");
 				TextView tv_TombstonePath = (TextView) findViewById(R.id.tv_TombstonePath);
 				tv_TombstonePath.setText(selectedImagePath.toString());
-				
+
 				InputStream imageStream = null;
 				Uri selectedImage = imageReturnedIntent.getData();
 				try {
-					imageStream = getContentResolver().openInputStream(selectedImage);
+					imageStream = getContentResolver().openInputStream(
+							selectedImage);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -247,7 +292,7 @@ public class NewGraveActivity extends Activity{
 					exif.convertFormat();
 					grave.setLatitude(exif.getLatitude());
 					grave.setLongitude(exif.getLongitude());
-	
+
 					System.out.println("EXIF STUFF" + exif.getLatitude());
 					System.out.println("EXIF STUFF" + grave.getLatitude());
 				} catch (IOException e) {
@@ -256,9 +301,9 @@ public class NewGraveActivity extends Activity{
 			}
 		}
 	}
-	
-	
-	//////////////////////////// --- GETPATH FÜR PHOTOSELECT--- ///////////////////////////////////
+
+	// ////////////////////////// --- GETPATH FÜR PHOTOSELECT---
+	// ///////////////////////////////////
 	public String getPath(Uri uri) {
 		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
@@ -269,17 +314,41 @@ public class NewGraveActivity extends Activity{
 		return cursor.getString(column_index);
 	}
 
-
-	////////////////////////// --- ERFASSUNG ALLER DATEN FÜR DB --- ////////////////////////////
+	// //////////////////////// --- ERFASSUNG ALLER DATEN FÜR DB ---
 	protected void setAllGraveData() {
 		grave.setFirstname(firstname.getText().toString());
 		grave.setLastname(lastname.getText().toString());
 		
 		//TO BE IMPLEMENTED LATER
-		//grave.setDateBirth(birthdate);
-		//grave.setDateDeath(jason.get("datedeath").toString());
 		//grave.setVitaPath(jason.getString("vita_path"));
 		//grave.setTombstonePath(jason.getString("tombstone_path"));
+/////////////////////////////// --- DATEPICKER--- //////////////////////////////////////
+		Calendar calendarBirth = Calendar.getInstance();
+		Calendar calendarDeath = Calendar.getInstance();
+		
+		String formatPattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleFormat = new SimpleDateFormat();
+		simpleFormat.applyPattern(formatPattern);
+		
+		calendarBirth.set(Calendar.YEAR, dateBirth.getYear());
+		calendarBirth.set(Calendar.MONTH, dateBirth.getMonth());
+		calendarBirth.set(Calendar.DAY_OF_MONTH, dateBirth.getDayOfMonth());
+		long millisBirth = calendarBirth.getTimeInMillis();
+		
+		calendarDeath.set(Calendar.YEAR, dateDeath.getYear());
+		calendarDeath.set(Calendar.MONTH, dateDeath.getMonth());
+		calendarDeath.set(Calendar.DAY_OF_MONTH, dateDeath.getDayOfMonth());
+		
+		long millisDeath = calendarDeath.getTimeInMillis();
+		
+		if(millisBirth > millisDeath) {
+			Toast.makeText(this, "Geburtsdatum später als Sterbedatum", Toast.LENGTH_SHORT).show();
+		}
+		grave.setDateBirth(simpleFormat.format(calendarBirth.getTime()));
+		grave.setDateDeath(simpleFormat.format(calendarDeath.getTime()));
+		Log.d("Date Birth", grave.getDateBirth());
+		Log.d("Date Death", grave.getDateDeath());
+		
 		grave.setLatitude(exif.getLat());
 		grave.setLongitude(exif.getLng());
 		
@@ -294,64 +363,63 @@ public class NewGraveActivity extends Activity{
 			grave.setSex("f");
 			System.out.println(grave.getSex());
 		}
-		
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 		Finisher.newgrave = this;
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		Finisher.newgrave = null;
 	}
-	
-	
-	/////////////////////////////////////// --- MENU --- ////////////////////////////////////////
-	
+
+	// ///////////////////////////////////// --- MENU ---
+	// ////////////////////////////////////////
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		 MenuInflater inflater = getMenuInflater();
-		 inflater.inflate(R.menu.main, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-	    case R.id.action_newgrave:
-	    	Log.d("onOptionsItemSelected", "NewGraveActivity.class");
-	    	Intent intent1 = new Intent(this, NewGraveActivity.class);
+		case R.id.action_newgrave:
+			Log.d("onOptionsItemSelected", "NewGraveActivity.class");
+			Intent intent1 = new Intent(this, NewGraveActivity.class);
 			startActivity(intent1);
 			break;
-			
-	    case R.id.action_searchlocation:
-	    	Log.d("onOptionsItemSelected", "SearchLocationActivity.class");
-	    	Intent intent2 = new Intent(this, SearchLocationActivity.class);
+
+		case R.id.action_searchlocation:
+			Log.d("onOptionsItemSelected", "SearchLocationActivity.class");
+			Intent intent2 = new Intent(this, SearchLocationActivity.class);
 			startActivity(intent2);
-	    	break;
-	    	
-	    case R.id.action_searchname:
-	    	Log.d("onOptionsItemSelected", "SearchNameActivity.class");
-	    	Intent intent3 = new Intent(this, SearchNameActivity.class);
+			break;
+
+		case R.id.action_searchname:
+			Log.d("onOptionsItemSelected", "SearchNameActivity.class");
+			Intent intent3 = new Intent(this, SearchNameActivity.class);
 			startActivity(intent3);
-		    break;
-		      
-	    case R.id.action_finish:
-	    	Log.d("onOptionsItemSelected", "finish");
-	    	Finisher f = new Finisher(this);
-	    	f.finishCimitery();
-		    break;
+			break;
 
-	    default:
-	      break;
-	    }
+		case R.id.action_finish:
+			Log.d("onOptionsItemSelected", "finish");
+			Finisher f = new Finisher(this);
+			f.finishCimitery();
+			break;
 
-	    return true;
+		default:
+			break;
+		}
+
+		return true;
 	}
 
 }
