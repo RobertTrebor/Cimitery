@@ -116,10 +116,16 @@
 	        android:id="@+id/spinnerNewGrave"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content" />
-	
+
+	    <ExpandableListView
+	        android:id="@+id/expListCategories"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	    </ExpandableListView>
 	    
 	    
-	    <!-- Button zum Sichern der Eingaben und Erstellen eines neuen Datensatzes in der Datenbank -->
+	  <!-- Button zum Sichern der Eingaben und Erstellen eines neuen Datensatzes in der Datenbank -->
+
 	    <Button
 	        android:id="@+id/buttonNewGrave"
 	        android:layout_width="wrap_content"

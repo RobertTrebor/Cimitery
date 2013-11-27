@@ -53,6 +53,8 @@ public class NewGraveActivity extends Activity {
 	RadioButton radioButton;
 	DatePicker dateBirth;
 	DatePicker dateDeath;
+	
+	CategoriesListAdapter catAdapter;
 
 	Grave grave = new Grave();
 
