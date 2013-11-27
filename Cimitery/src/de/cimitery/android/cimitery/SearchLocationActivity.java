@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 public class SearchLocationActivity extends Activity{
 	
-	
 	Double latitude;
 	Double longitude;
 	LocationManager lm;
@@ -28,7 +27,10 @@ public class SearchLocationActivity extends Activity{
 	TextView showLongitude;
 	String provider;
 	Location location;
-
+	
+	
+	//TODO HERE WE NEED THE MAPVIEW
+	String totallyRedundantString;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,7 @@ public class SearchLocationActivity extends Activity{
 				//Toast.makeText(getApplicationContext(), "GPS an", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(getApplicationContext(), "GPS aus", Toast.LENGTH_SHORT).show();
-			}
-			
+			}			
 		}
 		
 		Button locate = (Button) findViewById(R.id.gpsLocateButton);
@@ -105,12 +106,8 @@ public class SearchLocationActivity extends Activity{
 	
 	*/
 	
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////   Innere Klasse   //////////////////////////////////////////////////////////////
 
-	
 	private class MyLocationListener implements LocationListener {
 		
 		SearchLocationActivity me;
@@ -123,8 +120,8 @@ public class SearchLocationActivity extends Activity{
 		public void onLocationChanged(Location location) {
 			
 			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			
+			longitude = location.getLongitude();			
+		
 		}
 
 		@Override
@@ -207,3 +204,4 @@ public class SearchLocationActivity extends Activity{
 	
 
 }
+// HERE IS A TOTALLY REDUNTANT COMMENT
