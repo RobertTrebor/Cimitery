@@ -22,10 +22,15 @@
   <string name="labelSelectDateBirth">Geburtsdatum:</string>
   <string name="labelSelectDateDeath">Sterbedatum:</string>    
   <string name="buttonLinkVita">Lebenslauf öffnen</string>
+  <string name="categories">Kategorien wählen</string>
+  
   <string-array name="cemeteryNames">
     <item>Dorotheenstädtischer Friedhof</item>
     <item>Friedhof Stubenrauchstrasse</item>
   </string-array>
+  
+  
+  
   <!-- ActionBar Menu -->
   <string name="action_newgrave">Neue Grabstelle</string>
   <string name="action_searchbyname">Namenssuche</string>

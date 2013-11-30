@@ -26,11 +26,33 @@
     <string name="labelSelectDateBirth">Date of Birth:</string>
 	<string name="labelSelectDateDeath">Date of Death:</string> 
 	<string name="buttonLinkVita">Open Vita</string>
+	<string name="categories">Select categories</string>
     
     
     <string-array name="cemeteryNames">
         <item>Dorotheenstädtischer Friedhof</item>
         <item>Friedhof Stubenrauchstrasse</item>
+    </string-array>
+    
+    <string-array name="categoryNames">
+        <item >Author</item>
+        <item >Publicist</item>
+        <item >Journalist</item>
+        <item >Poet</item>
+        <item >Musician</item>
+        <item >Singer</item>
+        <item >Songwriter</item>
+        <item >Composer</item>
+        <item >Movie actor</item>
+        <item >Stage actor</item>
+        <item >Director</item>
+        <item >Artist</item>
+        <item >Painter</item>
+        <item >Photographer</item>
+        <item >Sculptor</item>
+        <item >Politician</item>
+        <item >Civil rights activist</item>
+        <item >Statesman</item>
     </string-array>
     
     
