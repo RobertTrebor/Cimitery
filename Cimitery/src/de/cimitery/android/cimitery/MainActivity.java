@@ -1,5 +1,7 @@
 package de.cimitery.android.cimitery;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,6 +22,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	RadioGroup radioGroup;
 	RadioButton radioButton;
 	Button button;
+	
 	static final String TAG = "MAIN ACTIVITY";
 
 	@Override

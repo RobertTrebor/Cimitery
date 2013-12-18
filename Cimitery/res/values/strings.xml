@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Cimitery</string>
-    
+        
     <string name="welcome">Welcome to Cimitery. Please select how you would like to go on:</string>
     <string name="radio1_search">Search by name or category</string>
     <string name="radio2_location">Search by GPS location</string>
@@ -27,6 +27,7 @@
 	<string name="labelSelectDateDeath">Date of Death:</string> 
 	<string name="buttonLinkVita">Open Vita</string>
 	<string name="categories">Select categories</string>
+	<string name="labelInCategories">For famous people select one or more categories</string>
     
     
     <string-array name="cemeteryNames">

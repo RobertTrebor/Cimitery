@@ -9,6 +9,7 @@ package de.cimitery.android.cimitery;
 
 public final class R {
     public static final class array {
+        public static final int categoryNames=0x7f050002;
         public static final int cemeteryNames=0x7f050001;
         public static final int create=0x7f050000;
     }
@@ -29,12 +30,12 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_finish=0x7f09002e;
-        public static final int action_newgrave=0x7f09002b;
-        public static final int action_searchlocation=0x7f09002d;
-        public static final int action_searchname=0x7f09002c;
-        public static final int buttonNewGrave=0x7f09001d;
-        public static final int buttonSearchName=0x7f090029;
+        public static final int action_finish=0x7f090033;
+        public static final int action_newgrave=0x7f090030;
+        public static final int action_searchlocation=0x7f090032;
+        public static final int action_searchname=0x7f090031;
+        public static final int buttonNewGrave=0x7f09001e;
+        public static final int buttonSearchName=0x7f09002a;
         public static final int buttonSelectPhoto=0x7f09000b;
         public static final int buttonVitaLink=0x7f090005;
         public static final int buttonWelcome=0x7f09000a;
@@ -42,31 +43,36 @@ public final class R {
         public static final int dpDeath=0x7f090019;
         public static final int editInFirstname=0x7f09000f;
         public static final int editInLastname=0x7f090011;
-        public static final int expListCategories=0x7f09001c;
-        public static final int gpsLocateButton=0x7f09001e;
+        public static final int expandableListView1=0x7f09001d;
+        public static final int gpsLocateButton=0x7f09001f;
+        public static final int groupDescr=0x7f09002d;
+        public static final int groupName=0x7f09002c;
         public static final int imageViewTombstone=0x7f09000c;
-        public static final int inputSearchFirstname=0x7f090026;
-        public static final int inputSearchLastname=0x7f090028;
+        public static final int inputSearchFirstname=0x7f090027;
+        public static final int inputSearchLastname=0x7f090029;
+        public static final int itemCheck=0x7f09002e;
+        public static final int itemName=0x7f09002f;
+        public static final int labelInCategories=0x7f09001c;
         public static final int labelInCemetery=0x7f09001a;
         public static final int labelInDateBirth=0x7f090016;
         public static final int labelInDateDeath=0x7f090018;
         public static final int labelInFirstname=0x7f09000e;
         public static final int labelInLastname=0x7f090010;
         public static final int labelInSex=0x7f090012;
-        public static final int labelLocation=0x7f09001f;
-        public static final int labelSearchFirstname=0x7f090025;
-        public static final int labelSearchLastname=0x7f090027;
-        public static final int labelSearchName=0x7f090024;
-        public static final int labelSelectCemetery=0x7f090022;
-        public static final int latitude=0x7f090020;
-        public static final int longitude=0x7f090021;
+        public static final int labelLocation=0x7f090020;
+        public static final int labelSearchFirstname=0x7f090026;
+        public static final int labelSearchLastname=0x7f090028;
+        public static final int labelSearchName=0x7f090025;
+        public static final int labelSelectCemetery=0x7f090023;
+        public static final int latitude=0x7f090021;
+        public static final int longitude=0x7f090022;
         public static final int radioFemale=0x7f090014;
         public static final int radioGroupSex=0x7f090013;
         public static final int radioGroupWelcome=0x7f090007;
         public static final int radioLocation=0x7f090009;
         public static final int radioMale=0x7f090015;
         public static final int radioSearch=0x7f090008;
-        public static final int spinnerCemetery=0x7f090023;
+        public static final int spinnerCemetery=0x7f090024;
         public static final int spinnerNewGrave=0x7f09001b;
         public static final int tableLayout1=0x7f090000;
         public static final int tf_firstname=0x7f090003;
@@ -74,7 +80,7 @@ public final class R {
         public static final int tf_latitude=0x7f090001;
         public static final int tf_longitude=0x7f090002;
         public static final int tv_TombstonePath=0x7f09000d;
-        public static final int webviewid=0x7f09002a;
+        public static final int webviewid=0x7f09002b;
         public static final int welcomeText=0x7f090006;
     }
     public static final class layout {
@@ -85,26 +91,30 @@ public final class R {
         public static final int activity_searchlocation=0x7f030004;
         public static final int activity_searchname=0x7f030005;
         public static final int activity_web_view=0x7f030006;
-        public static final int webview=0x7f030007;
+        public static final int group_layout=0x7f030007;
+        public static final int item_layout=0x7f030008;
+        public static final int webview=0x7f030009;
     }
     public static final class menu {
         public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int action_finish=0x7f04001b;
+        public static final int action_finish=0x7f04001d;
         /**  ActionBar Menu 
  ActionBar Menu 
          */
-        public static final int action_newgrave=0x7f040018;
-        public static final int action_searchbylocation=0x7f04001a;
-        public static final int action_searchbyname=0x7f040019;
-        public static final int action_settings=0x7f04001c;
+        public static final int action_newgrave=0x7f04001a;
+        public static final int action_searchbylocation=0x7f04001c;
+        public static final int action_searchbyname=0x7f04001b;
+        public static final int action_settings=0x7f04001e;
         public static final int app_name=0x7f040002;
         public static final int buttonLinkVita=0x7f040017;
         public static final int buttonNewGrave=0x7f040011;
         public static final int buttonSelectPhoto=0x7f040012;
+        public static final int categories=0x7f040018;
         public static final int database=0x7f040000;
         public static final int gpsLocateButton=0x7f04000c;
+        public static final int labelInCategories=0x7f040019;
         public static final int labelInputFirstname=0x7f04000e;
         public static final int labelInputLastname=0x7f04000f;
         public static final int labelInputSex=0x7f040010;

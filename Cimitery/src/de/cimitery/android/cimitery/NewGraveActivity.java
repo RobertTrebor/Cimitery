@@ -6,16 +6,24 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -54,7 +63,10 @@ public class NewGraveActivity extends Activity {
 	DatePicker dateBirth;
 	DatePicker dateDeath;
 	
-	CategoriesListAdapter catAdapter;
+	ExpandableListView exList;
+	private List<GroupCat> catList;
+	public HashMap<Integer, Boolean> selected;
+
 
 	Grave grave = new Grave();
 
@@ -75,6 +87,9 @@ public class NewGraveActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		initData();
+		
 		setContentView(R.layout.activity_newgrave);
 
 		firstname = (EditText) findViewById(R.id.editInFirstname);
@@ -117,11 +132,24 @@ public class NewGraveActivity extends Activity {
 			}
 
 		});
+		
+		///////////////////////////// --- CATEGORIES LISTVIEW --- ///////////////////
+		      
+        selected = new HashMap<Integer, Boolean>();
+        
+        exList = (ExpandableListView) findViewById(R.id.expandableListView1);
+        //exList.setIndicatorBounds(5, 5);
+        ExpandableAdapter exAdpt = new ExpandableAdapter(catList, this, this);
+        //exList.setIndicatorBounds(0, 20);
+        exList.setAdapter(exAdpt);
+        Log.d("NewGrave", "Adapter wurde gesetzt");
+		
+		
+		
 
 		Button button = (Button) findViewById(R.id.buttonNewGrave);
 		button.setOnClickListener(new OnClickListener() {
-			// /////////////////////// --- SAVE NEW GRAVE LISTENER ---
-			// ///////////////////////////
+			// /////////////////////// --- SAVE NEW GRAVE LISTENER --- ///////////////////////////
 			@Override
 			public void onClick(View v) {
 
@@ -174,40 +202,45 @@ public class NewGraveActivity extends Activity {
 									"http://www.lengsfeld.de/cimitery/vitae/"));
 							nameValuePairs.add(new BasicNameValuePair(
 									"tombstone_path", grave.getTombstonePath()));
-							/*
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("firstname", "robert"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("lastname", "robert"));
-							 * nameValuePairs.add(new BasicNameValuePair("sex",
-							 * "m")); nameValuePairs.add(new
-							 * BasicNameValuePair("datebirth", "null"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("datedeath", "null"));
-							 * nameValuePairs.add(new BasicNameValuePair("c_id",
-							 * "1")); nameValuePairs.add(new
-							 * BasicNameValuePair("grave_loc", "null"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("latitude", "1"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("longitude", "1"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("vita_path",
-							 * "http://www.lengsfeld.de/cimitery/vitae/"));
-							 * nameValuePairs.add(new
-							 * BasicNameValuePair("tombstone_path", "robert"));
-							 */
+							
 							httppost.setEntity(new UrlEncodedFormEntity(
 									nameValuePairs));
-							Log.d("NEWGRAVEACT", httppost.toString());
-
-							// Execute HTTP Post Request
-
 							HttpResponse response = httpclient
 									.execute(httppost);
-
-							Log.d("NEWGRAVEACT", "Am Ende des try im Runnable");
-							System.out.println(nameValuePairs.toString());
+							
+							///////// --- Request http get ID for new grave from database --- /////////
+							HttpClient clientRequestId = new DefaultHttpClient();
+							String requesterId = "http://www.lengsfeld.de/cimitery/findgraveid.php?" +
+									"cemeteryId=" + grave.getCemeteryID() + "&lastname=" + grave.getLastname() + "&firstname=" + grave.getFirstname();
+							
+							String dbReturned = "";
+                    
+							HttpGet httpget = new HttpGet(requesterId);
+							ResponseHandler<String> responseHandler = new BasicResponseHandler();
+							dbReturned = clientRequestId.execute(httpget, responseHandler);
+					        
+					        Long newId = jsonParseId(dbReturned);
+					        
+					        //////// --- Send Categories listings to database --- /////////////
+					        if(selected.size() > 0) {
+					        	ArrayList<Integer> catIdList = new ArrayList<Integer>(selected.keySet());
+					        	
+					        	for (int i = 0; i < catIdList.size(); i++) {
+					        		HttpClient httpclientcategories = new DefaultHttpClient();
+									HttpPost httppostcategories = new HttpPost(
+											"http://www.lengsfeld.de/cimitery/insertcategory.php");
+									List<NameValuePair> nameValueCategory = new ArrayList<NameValuePair>();
+									nameValueCategory.add(new BasicNameValuePair("g_id", newId.toString()));
+									nameValueCategory.add(new BasicNameValuePair("cat_id", catIdList.get(i).toString()));
+									httppost.setEntity(new UrlEncodedFormEntity(
+											nameValuePairs));
+									HttpResponse responseCat = httpclientcategories.execute(httppostcategories);
+								}
+					        	
+					        }
+					        
+							
+							
 						} catch (ClientProtocolException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
@@ -315,6 +348,46 @@ public class NewGraveActivity extends Activity {
 
 		return cursor.getString(column_index);
 	}
+	
+	
+	
+	private void initData() {
+    	catList = new ArrayList<GroupCat>();
+    	
+    	GroupCat group = createCategory("Categories", 1);
+    	catList.add(group);
+    	group.setItemList(createItems());
+    	
+    	//Log.d("NewGrave initData", "Liste von Kategroien erstellt");
+    	//Log.d("An Pos 1 ist:", group.getItemList().get(1).getName());
+    }
+    
+    private GroupCat createCategory(String name, long id) {
+    	Log.d("NewGrave CreateCategory", "Kategorie erzeugen");
+    	return new GroupCat(id, name);
+    }
+    
+    
+    private List<Category> createItems() {
+    	List<Category> result = new ArrayList<Category>();
+    	
+    	String[] array = getResources().getStringArray(R.array.categoryNames);
+    	
+    	for (int i=0; i < array.length; i++) {
+    		Category item = new Category(i, array[i]);
+    		result.add(item);
+    		Log.d("createItems", item.getName());
+    	}
+    	Log.d("NewGrave createItems", "Items in Liste erledigt");
+    	for (int i = 0; i < result.size(); i++) {
+    		Log.d("ItemDetail enthalten:", result.get(i).getName());
+		}
+    	
+    	return result;
+    }
+	
+	
+	
 
 	// //////////////////////// --- ERFASSUNG ALLER DATEN FÜR DB ---
 	protected void setAllGraveData() {
@@ -366,6 +439,26 @@ public class NewGraveActivity extends Activity {
 			System.out.println(grave.getSex());
 		}
 	}
+	
+	
+	
+	public Long jsonParseId(String dbReturned) {
+		long id = 0l;
+		
+		try {
+			JSONArray jsonArray = new JSONArray(dbReturned);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				
+				JSONObject jason = jsonArray.getJSONObject(i);
+				id = jason.getLong("g_id");
+			}
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
 
 	@Override
 	protected void onStart() {
@@ -379,8 +472,7 @@ public class NewGraveActivity extends Activity {
 		Finisher.newgrave = null;
 	}
 
-	// ///////////////////////////////////// --- MENU ---
-	// ////////////////////////////////////////
+	// ///////////////////////////////////// --- MENU --- ////////////////////////////////////////
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
